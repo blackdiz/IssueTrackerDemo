@@ -70,3 +70,6 @@ typings/
 #dependency lock
 package-lock.json
 shrinkwrap.yaml
+
+#database configuration
+config/db.json
