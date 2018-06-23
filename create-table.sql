@@ -14,6 +14,19 @@ insert into Tag(name) values('Bug');
 insert into Tag(name) values('Feature');
 insert into Tag(name) values('Support');
 
+--狀態
+create table Status(
+name varchar(20) not null,
+primary key(name)
+);
+
+insert into Status(name) values('New');
+insert into Status(name) values('In Progress');
+insert into Status(name) values('Resolved');
+insert into Status(name) values('Feedback');
+insert into Status(name) values('Closed');
+insert into Status(name) values('Rejected');
+
 --帳號
 create table users(
 user_name varchar(20) not null,
@@ -44,7 +57,7 @@ id serial,
 project_id varchar(100) references project(id),
 title varchar(100) not null,
 description text,
-status varchar(20) not null,
+status varchar(20) not null references status(name),
 priority varchar(20) not null,
 tag varchar(20) not null references tag(name),
 assigned_user varchar(100),
