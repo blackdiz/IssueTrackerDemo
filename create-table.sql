@@ -1,35 +1,40 @@
 drop table if exists issue;
 drop table if exists tag;
+drop table if exists status;
 drop table if exists users_project;
 drop table if exists project;
 drop table if exists users;
 
 --追蹤標籤
-create table Tag(
+create table tag(
+id serial,
 name varchar(20) not null,
-primary key (name)
+primary key (id)
 );
+alter sequence tag_id_seq restart with 1;
 
-insert into Tag(name) values('Bug');
-insert into Tag(name) values('Feature');
-insert into Tag(name) values('Support');
+insert into tag(name) values('Bug');
+insert into tag(name) values('Feature');
+insert into tag(name) values('Support');
 
 --狀態
-create table Status(
+create table status(
+id serial,
 name varchar(20) not null,
-primary key(name)
+primary key(id)
 );
+alter sequence status_id_seq restart with 1;
 
-insert into Status(name) values('New');
-insert into Status(name) values('In Progress');
-insert into Status(name) values('Resolved');
-insert into Status(name) values('Feedback');
-insert into Status(name) values('Closed');
-insert into Status(name) values('Rejected');
+insert into status(name) values('New');
+insert into status(name) values('In Progress');
+insert into status(name) values('Resolved');
+insert into status(name) values('Feedback');
+insert into status(name) values('Closed');
+insert into status(name) values('Rejected');
 
 --帳號
 create table users(
-user_name varchar(20) not null,
+user_name varchar(20),
 password varchar(255) not null,
 first_name varchar(20) not null,
 last_name varchar(20) not null,
@@ -42,7 +47,7 @@ primary key (user_name)
 
 --專案
 create table project(
-id varchar(100) not null,
+id varchar(100),
 project_name varchar(50) not null,
 is_public boolean default true,
 creator varchar(20) references users(user_name),
@@ -57,9 +62,9 @@ id serial,
 project_id varchar(100) references project(id),
 title varchar(100) not null,
 description text,
-status varchar(20) not null references status(name),
+status int not null references status(id),
 priority varchar(20) not null,
-tag varchar(20) not null references tag(name),
+tag int not null references tag(id),
 assigned_user varchar(100),
 estimate_work_hour smallint,
 estimate_start_date date,
