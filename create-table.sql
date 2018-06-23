@@ -1,3 +1,4 @@
+drop table if exists attachment;
 drop table if exists issue;
 drop table if exists tag;
 drop table if exists status;
@@ -74,6 +75,16 @@ creator varchar(20) references users(user_name),
 create_time timestamp not null,
 last_update_time timestamp not null,
 primary key (id)
+);
+
+--需求附件
+create table attachment(
+id serial,
+issue_id int not null references issue(id),
+file_name varchar(200) not null,
+file_path varchar(1024) not null,
+description varchar(50),
+primary key(id)
 );
 
 --帳號_專案_Mapping
