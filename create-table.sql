@@ -2,9 +2,9 @@ drop table if exists attachment;
 drop table if exists issue;
 drop table if exists tag;
 drop table if exists status;
-drop table if exists users_project;
+drop table if exists account_project;
 drop table if exists project;
-drop table if exists users;
+drop table if exists account;
 
 --追蹤標籤
 create table tag(
@@ -34,8 +34,8 @@ insert into status(name) values('Closed');
 insert into status(name) values('Rejected');
 
 --帳號
-create table users(
-user_name varchar(20),
+create table account(
+account_name varchar(20),
 password varchar(255) not null,
 first_name varchar(20) not null,
 last_name varchar(20) not null,
@@ -45,7 +45,7 @@ delete_flag boolean not null default false,
 last_login_time timestamp,
 create_time timestamp not null,
 last_update_time timestamp not null,
-primary key (user_name)
+primary key (account_name)
 );
 
 --專案
@@ -53,7 +53,7 @@ create table project(
 id varchar(100),
 project_name varchar(50) not null,
 is_public boolean default true,
-creator varchar(20) references users(user_name),
+creator varchar(20) references account(account_name),
 create_time timestamp not null,
 last_update_time timestamp not null,
 primary key (id)
@@ -68,12 +68,12 @@ description text,
 status_id int not null references status(id),
 priority varchar(20) not null,
 tag_id int not null references tag(id),
-assigned_user varchar(100),
+assigned_account varchar(100),
 estimate_work_hour smallint,
 estimate_start_date date,
 estimate_end_date date,
 finished_percent smallint,
-creator varchar(20) references users(user_name),
+creator varchar(20) references account(account_name),
 create_time timestamp not null,
 last_update_time timestamp not null,
 primary key (id)
@@ -86,12 +86,14 @@ issue_id int not null references issue(id),
 file_name varchar(200) not null,
 file_path varchar(1024) not null,
 description varchar(50),
+creator varchar(20) references account(account_name),
+create_time timestamp not null,
 primary key(id)
 );
 
 --帳號_專案_Mapping
-create table users_project(
-user_name varchar(20) not null references users(user_name),
+create table account_project(
+account_name varchar(20) not null references account(account_name),
 project_id varchar(100) not null references project(id),
-primary key(user_name, project_id)
+primary key(account_name, project_id)
 );
