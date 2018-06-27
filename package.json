@@ -4,26 +4,27 @@
   "description": "A simple issue tracker project",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --exit",
+    "gen-table": "pnpx typeorm-model-generator -h localhost -d issue_tracker -u blackdiz -x black2603 -e postgres -o ./src/model -s public --ce pascal --cp camel"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "objection": "^1.1.10",
     "pg": "^7.4.3",
-    "typeorm": "^0.2.7",
-    "typeorm-model-generator": "^0.2.18",
     "winston": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-react": "^7.10.0",
     "mocha": "^5.2.0"
   }
 }
