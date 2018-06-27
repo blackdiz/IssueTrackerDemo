@@ -7,7 +7,7 @@ const conn = require('../config/db');
 
 describe('user-repository', () => {
   describe('#save(user)', () => {
-    it('should insert user to database', async () => {
+    it('test save user to database and get back', async () => {
       const tx = await transaction.start(conn);
       await userRepository.save(
         {
@@ -22,9 +22,9 @@ describe('user-repository', () => {
         tx
       );
       const account = await userRepository.get('name', tx);
-
-      console.log(account);
-      await tx.commit();
+      assert.strictEqual(1, account.length);
+      assert.strictEqual('name', account[0].name);
+      await tx.rollback();
     });
   });
 });
