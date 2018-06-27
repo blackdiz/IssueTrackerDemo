@@ -1,12 +1,8 @@
 'use strict';
 
-const { Model, snakeCaseMappers } = require('objection');
+const BaseModel = require('./base-model');
 
-class Account extends Model {
-  static get columnNameMappers() {
-    return snakeCaseMappers();
-  }
-
+class Account extends BaseModel {
   static get tableName() {
     return 'account';
   }
@@ -23,7 +19,7 @@ class Account extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'password', 'email', 'active', 'createTime', 'lastUpdateTime'],
+      required: ['name', 'password', 'email', 'active'],
 
       properties: {
         name: { type: 'string', maxLength: 20 },
