@@ -1,20 +1,30 @@
 'use strict';
 
-const assert = require('assert');
-const { Pool } = require('pg');
-const fs = require('fs');
+const { assert } = require('chai');
+const userRepository = require('../src/repositories/account-repository');
+const { transaction } = require('objection');
+const conn = require('../config/db');
 
-describe('Array', () => {
-  describe('#indexOf()', () => {
-    it('should return -1 when the value is not present', () => {
-      assert.equal([1, 2, 3].indexOf(4), -1);
-      const config = fs.readFileSync(`${__dirname}/../config/db.json`);
-      console.log(config);
-      const pool = new Pool(JSON.parse(config));
-      pool.query('select now()', (err, res) => {
-        console.log(err, res);
-        pool.end();
-      });
+describe('user-repository', () => {
+  describe('#save(user)', () => {
+    it('should insert user to database', async () => {
+      const tx = await transaction.start(conn);
+      await userRepository.save(
+        {
+          name: 'name',
+          first_name: 'firstname',
+          last_name: 'lastname',
+          password: '123',
+          email: '123',
+          create_time: new Date(),
+          last_update_time: new Date()
+        },
+        tx
+      );
+      const account = await userRepository.get('name', tx);
+
+      console.log(account);
+      await tx.commit();
     });
   });
 });
