@@ -35,7 +35,7 @@ insert into status(name) values('Rejected');
 
 --帳號
 create table account(
-account_name varchar(20),
+name varchar(20),
 password varchar(255) not null,
 first_name varchar(20) not null,
 last_name varchar(20) not null,
@@ -45,7 +45,7 @@ delete_flag boolean not null default false,
 last_login_time timestamp,
 create_time timestamp not null,
 last_update_time timestamp not null,
-primary key (account_name)
+primary key (name)
 );
 
 --專案
@@ -53,7 +53,7 @@ create table project(
 id varchar(100),
 project_name varchar(50) not null,
 is_public boolean default true,
-creator varchar(20) references account(account_name),
+creator varchar(20) references account(name),
 create_time timestamp not null,
 last_update_time timestamp not null,
 primary key (id)
@@ -73,7 +73,7 @@ estimate_work_hour smallint,
 estimate_start_date date,
 estimate_end_date date,
 finished_percent smallint,
-creator varchar(20) references account(account_name),
+creator varchar(20) references account(name),
 create_time timestamp not null,
 last_update_time timestamp not null,
 primary key (id)
@@ -86,14 +86,14 @@ issue_id int not null references issue(id),
 file_name varchar(200) not null,
 file_path varchar(1024) not null,
 description varchar(50),
-creator varchar(20) references account(account_name),
+creator varchar(20) references account(name),
 create_time timestamp not null,
 primary key(id)
 );
 
 --帳號_專案_Mapping
 create table account_project(
-account_name varchar(20) not null references account(account_name),
+name varchar(20) not null references account(name),
 project_id varchar(100) not null references project(id),
-primary key(account_name, project_id)
+primary key(name, project_id)
 );
