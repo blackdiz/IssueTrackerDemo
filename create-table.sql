@@ -41,9 +41,9 @@ first_name varchar(20) not null,
 last_name varchar(20) not null,
 email varchar(50) not null,
 active boolean not null default false,
-last_login_time timestamp,
-create_time timestamp not null,
-last_update_time timestamp not null,
+last_login_time timestamp with time zone,
+create_time timestamp with time zone not null,
+last_update_time timestamp with time zone not null,
 primary key (name)
 );
 
@@ -53,8 +53,8 @@ id varchar(100),
 project_name varchar(50) not null,
 is_public boolean default true,
 creator varchar(20) references account(name),
-create_time timestamp not null,
-last_update_time timestamp not null,
+create_time timestamp with time zone not null,
+last_update_time timestamp with time zone not null,
 primary key (id)
 );
 
@@ -73,8 +73,8 @@ estimate_start_date date,
 estimate_end_date date,
 finished_percent smallint,
 creator varchar(20) references account(name),
-create_time timestamp not null,
-last_update_time timestamp not null,
+create_time timestamp with time zone not null,
+last_update_time timestamp with time zone not null,
 primary key (id)
 );
 
@@ -86,7 +86,7 @@ file_name varchar(200) not null,
 file_path varchar(1024) not null,
 description varchar(50),
 creator varchar(20) references account(name),
-create_time timestamp not null,
+create_time timestamp with time zone not null,
 primary key(id)
 );
 
