@@ -1,8 +1,12 @@
 'use strict';
 
-const { Model } = require('objection');
+const { Model, snakeCaseMappers } = require('objection');
 
 class Account extends Model {
+  static get columnNameMappers() {
+    return snakeCaseMappers();
+  }
+
   static get tableName() {
     return 'account';
   }
@@ -11,13 +15,23 @@ class Account extends Model {
     return 'name';
   }
 
+  constructor() {
+    super();
+    this.active = true;
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name'],
+      required: ['name', 'password', 'email', 'active', 'createTime', 'lastUpdateTime'],
 
       properties: {
-        name: { type: 'string', minLength: 1, maxLength: 255 }
+        name: { type: 'string', maxLength: 20 },
+        password: { type: 'string', maxLength: 255 },
+        firstName: { type: 'string', maxLength: 20 },
+        lastName: { type: 'string', maxLength: 20 },
+        email: { type: 'string', maxLength: 50 },
+        active: { type: 'boolean' }
       }
     };
   }
