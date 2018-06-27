@@ -12,11 +12,12 @@ describe('account-repository', () => {
       const tx = await transaction.start(conn);
       const newAccount = {
         name: 'name',
-        first_name: 'firstname',
-        last_name: 'lastname',
+        firstName: 'firstname',
+        lastName: 'lastname',
         email: '123',
-        create_time: new Date(),
-        last_update_time: new Date()
+        createTime: new Date(),
+        lastUpdateTime: new Date(),
+        active: true
       };
       newAccount.password = await bcrypt.hash('123', 10);
 
