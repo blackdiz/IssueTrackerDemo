@@ -37,9 +37,6 @@ insert into status(name) values('Rejected');
 create table account(
 name varchar(20),
 password varchar(255) not null,
-first_name varchar(20) not null,
-last_name varchar(20) not null,
-email varchar(50) not null,
 active boolean not null default false,
 last_login_time timestamp with time zone,
 create_time timestamp with time zone not null,
