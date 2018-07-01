@@ -72,4 +72,4 @@ package-lock.json
 shrinkwrap.yaml
 
 #database configuration
-config/db.json
+backend/src/config/db.js
