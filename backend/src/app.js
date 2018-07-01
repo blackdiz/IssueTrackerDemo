@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/account', require('./routes/account'));
+app.use('/api/account', require('./routes/account-router'));
 
 app.listen(port, () => {
   logger.info(`Server starts at ${port}`);

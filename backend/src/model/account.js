@@ -14,19 +14,18 @@ class Account extends BaseModel {
   constructor() {
     super();
     this.active = true;
+    this.createTime = null;
+    this.lastUpdateTime = null;
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'password', 'email', 'active'],
+      required: ['name', 'password', 'active'],
 
       properties: {
         name: { type: 'string', maxLength: 20 },
         password: { type: 'string', maxLength: 255 },
-        firstName: { type: 'string', maxLength: 20 },
-        lastName: { type: 'string', maxLength: 20 },
-        email: { type: 'string', maxLength: 50 },
         active: { type: 'boolean' }
       }
     };

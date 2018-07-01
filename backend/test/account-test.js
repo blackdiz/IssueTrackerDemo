@@ -3,7 +3,7 @@
 const { assert } = require('chai');
 const accountRepository = require('../src/repositories/account-repository');
 const { transaction } = require('objection');
-const conn = require('../config/db');
+const conn = require('../src/config/db');
 const bcrypt = require('bcrypt');
 
 describe('account-repository', () => {
