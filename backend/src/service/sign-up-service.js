@@ -6,29 +6,48 @@ const bcrypt = require('bcrypt');
 const Account = require('../model/account');
 const logger = require('../config/logger');
 
+async function existAccount(name, tx) {
+  return accountRepository.get(name, tx);
+}
+
 module.exports = {
   signUp: async (account) => {
     if (!account) {
-      throw new Error('No account');
+      const err = {
+        name: 'noAccountObject'
+      };
+      throw err;
     }
     if (!account.name) {
-      throw new Error('No account name');
+      const err = {
+        name: 'noAccountName'
+      };
+      throw err;
     }
     if (!account.password) {
-      throw new Error('No account passowrd');
+      const err = {
+        name: 'noAccountPassword'
+      };
+      throw err;
     }
 
-    const cloneAccount = new Account();
-    Object.assign(cloneAccount, account);
-    cloneAccount.password = await bcrypt.hash(account.password, 10);
     let tx;
     try {
       tx = await transaction();
+      if (await existAccount(account.name, tx)) {
+        const err = {
+          name: 'duplicateAccount'
+        };
+        throw err;
+      }
+
+      const cloneAccount = new Account();
+      Object.assign(cloneAccount, account);
+      cloneAccount.password = await bcrypt.hash(account.password, 10);
       await accountRepository.save(cloneAccount, tx);
-      logger.info('service save');
       tx.commit();
     } catch (err) {
-      logger.error('service err');
+      logger.error(err.name);
       tx.rollback();
       throw err;
     }
