@@ -1,20 +1,18 @@
 'use strict';
 
-const express = require('express');
+const router = require('express').Router();
 const signUpService = require('../service/sign-up-service');
 const logger = require('../config/logger');
 
-const router = express.Router();
-
 router.post('/', (req, res) => {
-  if (!req.body.name) {
+  if (!req.body.accountname) {
     res.status(400).json({ errorMessage: '請輸入使用者名稱' });
   } else if (!req.body.password) {
     res.status(400).json({ errorMessage: '請輸入密碼' });
   } else {
     (async () => {
       try {
-        await signUpService.signUp({ name: req.body.name, password: req.body.password });
+        await signUpService.signUp({ name: req.body.accountname, password: req.body.password });
         res.end();
       } catch (err) {
         if (err.name === 'duplicateAccount') {

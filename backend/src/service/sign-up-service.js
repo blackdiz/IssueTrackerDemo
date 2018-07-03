@@ -7,7 +7,7 @@ const Account = require('../model/account');
 const logger = require('../config/logger');
 
 async function existAccount(name, tx) {
-  return accountRepository.get(name, tx);
+  return accountRepository.findByName(name, tx);
 }
 
 module.exports = {
