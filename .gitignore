@@ -73,3 +73,5 @@ shrinkwrap.yaml
 
 #database configuration
 backend/src/config/db.js
+
+frontend/dist
