@@ -25,21 +25,35 @@ class LoginForm extends Component {
   async handleSubmit(e) {
     this.setState({ submitEnable: false, signUpMessage: '' });
     e.preventDefault();
-    const res = await fetch(API_URL + '/api/login', {
-      body: JSON.stringify({ accountname: this.state.accountname, password: this.state.password }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-    if (res.status === 200) {
-      this.setState({ signUpMessage: '註冊成功' });
-    } else if (res.status === 400) {
-      const response = await res.json();
-      this.setState({ signUpMessage: response.errorMessage });
-    } else {
-      const response = await res.json();
-      this.setState({ signUpMessage: '註冊失敗' });
+    try {
+      console.log(API_URL);
+      const res = await fetch(API_URL + '/api/login', {
+        body: JSON.stringify({
+          accountname: this.state.accountname,
+          password: this.state.password
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (res.status === 200) {
+        this.props.login(true);
+      } else {
+        const response = await res.json();
+        if (res.status === 400) {
+          this.setState({ signUpMessage: response.errorMessage });
+        } else {
+          this.setState({ signUpMessage: '登入失敗' });
+        }
+        this.props.login(false);
+      }
+    } catch (err) {
+      console.error(err);
+      this.setState({ signUpMessage: '登入失敗' });
+      this.props.login(false);
     }
 
     this.setState({ submitEnable: true });
@@ -58,7 +72,7 @@ class LoginForm extends Component {
                 使用者名稱
               </Label>
               <Col sm={8}>
-                <AccountNameInput handleChange={this.handleChange} />
+                <AccountNameInput value={this.state.accountname} handleChange={this.handleChange} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -66,7 +80,10 @@ class LoginForm extends Component {
                 使用者密碼
               </Label>
               <Col sm={8}>
-                <AccountPasswordInput handleChange={this.handleChange} />
+                <AccountPasswordInput
+                  value={this.state.password}
+                  handleChange={this.handleChange}
+                />
               </Col>
             </FormGroup>
 

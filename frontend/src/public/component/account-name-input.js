@@ -12,6 +12,7 @@ export default function AccountNameInput(props) {
         id="accountname"
         maxLength={20}
         required
+        value={props.accountname}
         onChange={props.handleChange}
         className="form-control"
       />

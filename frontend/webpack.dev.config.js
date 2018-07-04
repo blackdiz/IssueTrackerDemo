@@ -44,7 +44,7 @@ module.exports = {
     new HtmlWebpackHarddiskPlugin(),
     new CleanWebpackPlugin(['dist/*']),
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify('http://localhost:3000')
+      API_URL: JSON.stringify('http://issue-tracker-demo.com:3000')
     })
   ],
   serve: {

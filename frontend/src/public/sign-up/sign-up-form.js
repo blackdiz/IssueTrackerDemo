@@ -25,20 +25,28 @@ class SignUpForm extends Component {
   async handleSubmit(e) {
     this.setState({ submitEnable: false, signUpMessage: '' });
     e.preventDefault();
-    const res = await fetch(API_URL + '/api/account', {
-      body: JSON.stringify({ accountname: this.state.accountname, password: this.state.password }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-    if (res.status === 200) {
-      this.setState({ signUpMessage: '註冊成功' });
-    } else if (res.status === 400) {
-      const response = await res.json();
-      this.setState({ signUpMessage: response.errorMessage });
-    } else {
-      const response = await res.json();
+    try {
+      const res = await fetch(API_URL + '/api/account', {
+        body: JSON.stringify({
+          accountname: this.state.accountname,
+          password: this.state.password
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      });
+      if (res.status === 200) {
+        this.setState({ signUpMessage: '註冊成功' });
+      } else if (res.status === 400) {
+        const response = await res.json();
+        this.setState({ signUpMessage: response.errorMessage });
+      } else {
+        const response = await res.json();
+        this.setState({ signUpMessage: '註冊失敗' });
+      }
+    } catch (err) {
+      console.error(err);
       this.setState({ signUpMessage: '註冊失敗' });
     }
 
@@ -58,7 +66,7 @@ class SignUpForm extends Component {
                 使用者名稱
               </Label>
               <Col sm={8}>
-                <AccountNameInput handleChange={this.handleChange} />
+                <AccountNameInput value={this.state.accountname} handleChange={this.handleChange} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -66,7 +74,10 @@ class SignUpForm extends Component {
                 使用者密碼
               </Label>
               <Col sm={8}>
-                <AccountPasswordInput handleChange={this.handleChange} />
+                <AccountPasswordInput
+                  value={this.state.password}
+                  handleChange={this.handleChange}
+                />
               </Col>
             </FormGroup>
 

@@ -12,6 +12,8 @@ router.post(
     } else if (!req.body.password) {
       res.status(400).json({ errorMessage: '請輸入密碼' });
     } else {
+      logger.info(req.session.account);
+      logger.info('test');
       next();
     }
   },

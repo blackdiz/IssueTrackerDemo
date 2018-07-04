@@ -10,6 +10,18 @@ import LoginForm from '../login/login-form';
 import 'babel-polyfill';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.login = this.login.bind(this);
+    this.state = {
+      isLogIn: false
+    };
+  }
+
+  login(success) {
+    this.setState({ isLogIn: success });
+  }
+
   render() {
     return (
       <Router>
@@ -19,7 +31,7 @@ class App extends Component {
           </header>
           <Container fluid>
             <Switch>
-              <Route path="/login" component={LoginForm} />
+              <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
             </Switch>
           </Container>

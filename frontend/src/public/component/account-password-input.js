@@ -12,6 +12,7 @@ export default function AccountPasswordInput(props) {
         id="password"
         maxLength={20}
         required
+        value={props.password}
         onChange={props.handleChange}
         className="form-control"
       />

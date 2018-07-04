@@ -12,9 +12,9 @@ const port = process.env.Production || 3000;
 
 // 設定所有router都可接受CORS的prefight request
 const corsOption = {
-  origin: 'http://localhost.com',
+  origin: 'http://issue-tracker-demo.com:8080',
   credentials: true,
-  allowedHeaders: 'Content-Type'
+  allowedHeaders: ['Content-Type', 'Cache-Control']
 };
 
 app.use(helmet());
@@ -22,12 +22,16 @@ app.use(cors(corsOption));
 app.use(
   // saveUninitialized: false 表示不會即使沒有登入也建立session
   session({
+    name: 'issue-tracker-demo',
     secret: 'issue-tracker',
-    httpOnly: true,
     resave: true,
     saveUninitialized: false,
     rolling: true,
-    maxAge: 1800000
+    cookie: {
+      domain: 'issue-tracker-demo.com',
+      httpOnly: true,
+      maxAge: 1800000
+    }
   })
 );
 app.use(bodyParser.urlencoded({ extended: false }));
