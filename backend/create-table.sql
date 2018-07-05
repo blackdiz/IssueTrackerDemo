@@ -38,7 +38,7 @@ create table account(
 name varchar(20),
 password varchar(255) not null,
 active boolean not null default false,
-last_login_time timestamp with time zone,
+login_time timestamp with time zone,
 create_time timestamp with time zone not null,
 last_update_time timestamp with time zone not null,
 primary key (name)
