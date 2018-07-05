@@ -29,6 +29,7 @@ module.exports = {
         logger.info(`Account: ${accountname} password is invalide`);
         return null;
       }
+      tx.commit();
       return account;
     } catch (err) {
       logger.error(err);
