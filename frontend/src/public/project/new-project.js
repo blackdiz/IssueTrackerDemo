@@ -23,7 +23,11 @@ class NewProject extends Component {
 
   handleChange(e) {
     const newProject = Object.assign({}, this.state.project);
-    newProject[`${e.target.name}`] = e.target.value;
+    if (e.target.name === 'isPublic') {
+      newProject['isPublic'] = e.target.checked;
+    } else {
+      newProject[`${e.target.name}`] = e.target.value;
+    }
     this.setState({ project: newProject });
   }
 
