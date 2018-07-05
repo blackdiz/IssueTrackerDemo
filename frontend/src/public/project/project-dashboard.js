@@ -9,7 +9,8 @@ class ProjectDashboard extends Component {
     super(props);
     this.handClick = this.handClick.bind(this);
     this.state = {
-      redirect: false
+      redirect: false,
+      projects: []
     };
   }
 
@@ -19,7 +20,7 @@ class ProjectDashboard extends Component {
 
   render() {
     if (this.state.redirect === true) {
-      return <Redirect push to={'/project/new'} />;
+      return <Redirect push to={{ pathname: '/project/new' }} />;
     }
 
     return (
@@ -35,6 +36,9 @@ class ProjectDashboard extends Component {
           <Col sm={2}>
             <h3>專案清單</h3>
           </Col>
+        </Row>
+        <Row>
+          <Col>{this.state.projects}</Col>
         </Row>
       </div>
     );
