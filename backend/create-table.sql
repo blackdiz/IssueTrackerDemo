@@ -47,6 +47,7 @@ primary key (name)
 --專案
 create table project(
 name varchar(50),
+description text,
 is_public boolean default true,
 creator varchar(20) references account(name),
 create_time timestamp with time zone not null,
