@@ -20,15 +20,17 @@ class Project extends BaseModel {
 
   static get relationMappings() {
     return {
-      relation: Model.ManyToManyRelation,
-      modelClass: `${__dirname}/account`,
-      join: {
-        from: 'project.id',
-        through: {
-          from: 'account_project.project_name',
-          to: 'account_project.account_name'
-        },
-        to: 'account.id'
+      accounts: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/account`,
+        join: {
+          from: 'project.name',
+          through: {
+            from: 'account_project.project_name',
+            to: 'account_project.account_name'
+          },
+          to: 'account.name'
+        }
       }
     };
   }

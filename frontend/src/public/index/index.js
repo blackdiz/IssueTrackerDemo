@@ -2,11 +2,14 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Container } from 'reactstrap';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from '../component/header';
-import { Container, Row, Col } from 'reactstrap';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './home';
 import SignUpForm from '../sign-up/sign-up-form';
 import LoginForm from '../login/login-form';
+import ProjectDashBoard from '../project/project-dashboard';
+import NewProject from '../project/new-project';
 import 'babel-polyfill';
 
 class App extends Component {
@@ -14,12 +17,23 @@ class App extends Component {
     super(props);
     this.login = this.login.bind(this);
     this.state = {
-      isLogIn: false
+      isLoggedIn: this.hasLoggedIn()
     };
   }
 
+  hasLoggedIn() {
+    if (window.localStorage['loggedInTime']) {
+      return new Date().getTime() - window.localStorage['loggedInTime'] < 1800000;
+    } else {
+      return false;
+    }
+  }
+
   login(success) {
-    this.setState({ isLogIn: success });
+    if (success === true) {
+      this.setState({ isLoggedIn: success });
+      window.localStorage['loggedInTime'] = new Date().getTime();
+    }
   }
 
   render() {
@@ -27,12 +41,15 @@ class App extends Component {
       <Router>
         <div className="d-flex flex-column">
           <header>
-            <Header />
+            <Header isLoggedIn={this.state.isLoggedIn} />
           </header>
           <Container fluid>
             <Switch>
+              <Route exact path="/" component={Home} />
               <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
+              <Route exact path="/project" component={ProjectDashBoard} />
+              <Route path="/project/new" component={NewProject} />
             </Switch>
           </Container>
         </div>

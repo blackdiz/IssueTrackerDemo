@@ -6,6 +6,7 @@ const cors = require('cors'); // 設定CORS
 const bodyParser = require('body-parser'); // parse POST的body
 const session = require('express-session');
 const logger = require('./config/logger');
+const expressValidation = require('express-validation');
 
 const app = express();
 const port = process.env.Production || 3000;
@@ -57,6 +58,14 @@ app.use((req, res, next) => {
 
 app.use('/api/account', require('./routes/account-router'));
 app.use('/api/login', require('./routes/login-router'));
+app.use('/api/project', require('./routes/project-router'));
+
+/* eslint-disable no-unused-vars */
+app.use((err, req, res, next) => {
+  if (err instanceof expressValidation.ValidationError) {
+    res.status(err.status).json(err);
+  }
+});
 
 app.listen(port, () => {
   logger.info(`Server starts at ${port}`);

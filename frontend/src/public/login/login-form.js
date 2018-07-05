@@ -1,9 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Row, Col, Form, FormGroup, FormText, Label, Input, Button } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Button } from 'reactstrap';
 import AccountPasswordInput from '../component/account-password-input';
 import AccountNameInput from '../component/account-name-input';
+import { Redirect } from 'react-router-dom';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class LoginForm extends Component {
       accountname: '',
       password: '',
       submitEnable: true,
-      signUpMessage: ''
+      signUpMessage: '',
+      loginSuccess: false
     };
   }
 
@@ -25,22 +27,22 @@ class LoginForm extends Component {
   async handleSubmit(e) {
     this.setState({ submitEnable: false, signUpMessage: '' });
     e.preventDefault();
+    let loginSuccess = false;
     try {
-      console.log(API_URL);
       const res = await fetch(API_URL + '/api/login', {
         body: JSON.stringify({
           accountname: this.state.accountname,
           password: this.state.password
         }),
         headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
+          'Content-Type': 'application/json'
         },
         method: 'POST',
         credentials: 'include'
       });
       if (res.status === 200) {
         this.props.login(true);
+        loginSuccess = true;
       } else {
         const response = await res.json();
         if (res.status === 400) {
@@ -56,10 +58,18 @@ class LoginForm extends Component {
       this.props.login(false);
     }
 
-    this.setState({ submitEnable: true });
+    if (loginSuccess === true) {
+      this.setState({ loginSuccess: true });
+    } else {
+      this.setState({ submitEnable: true });
+    }
   }
 
   render() {
+    if (this.state.loginSuccess === true) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div className="d-flex flex-column align-items-sm-center mt-5 justify-content-sm-center align-content-sm-center">
         <div>
@@ -87,7 +97,7 @@ class LoginForm extends Component {
               </Col>
             </FormGroup>
 
-            <Button type="submit" className="bg-primary" disabled={!this.state.submitEnable}>
+            <Button type="submit" color="primary" disabled={!this.state.submitEnable}>
               登入
             </Button>
           </Form>
