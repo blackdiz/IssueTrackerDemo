@@ -17,7 +17,7 @@ class App extends Component {
     super(props);
     this.login = this.login.bind(this);
     this.state = {
-      isLoggedIn: this.hasLoggedIn()
+      isLoggedIn: false
     };
   }
 
@@ -27,6 +27,10 @@ class App extends Component {
     } else {
       return false;
     }
+  }
+
+  componentDidMount() {
+    this.setState({ isLoggedIn: this.hasLoggedIn() });
   }
 
   login(success) {
