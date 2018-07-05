@@ -14,9 +14,9 @@ class Account extends BaseModel {
 
   constructor() {
     super();
-    this.active = true;
-    this.createTime = null;
-    this.lastUpdateTime = null;
+    this.active = this.active;
+    this.createTime = this.createTime;
+    this.lastUpdateTime = this.lastUpdateTime;
   }
 
   static get relationMappings() {

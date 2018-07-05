@@ -14,8 +14,8 @@ class Project extends BaseModel {
 
   constructor() {
     super();
-    this.createTime = null;
-    this.lastUpdateTime = null;
+    this.createTime = this.createTime;
+    this.lastUpdateTime = this.lastUpdateTime;
   }
 
   static get relationMappings() {

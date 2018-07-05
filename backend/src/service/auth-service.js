@@ -29,6 +29,7 @@ module.exports = {
         logger.info(`Account: ${accountname} password is invalide`);
         return null;
       }
+      await accountRepository.updateLoginTime(account.name, tx);
       tx.commit();
       return account;
     } catch (err) {
