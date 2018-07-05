@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Row, Col, Form, FormGroup, FormText, Label, Input, Button } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Button } from 'reactstrap';
 import AccountPasswordInput from '../component/account-password-input';
 import AccountNameInput from '../component/account-name-input';
 
@@ -38,12 +38,13 @@ class SignUpForm extends Component {
       });
       if (res.status === 200) {
         this.setState({ signUpMessage: '註冊成功' });
-      } else if (res.status === 400) {
-        const response = await res.json();
-        this.setState({ signUpMessage: response.errorMessage });
       } else {
         const response = await res.json();
-        this.setState({ signUpMessage: '註冊失敗' });
+        if (res.status === 400) {
+          this.setState({ signUpMessage: response.errorMessage });
+        } else {
+          this.setState({ signUpMessage: '註冊失敗' });
+        }
       }
     } catch (err) {
       console.error(err);
@@ -81,7 +82,7 @@ class SignUpForm extends Component {
               </Col>
             </FormGroup>
 
-            <Button type="submit" className="bg-primary" disabled={!this.state.submitEnable}>
+            <Button type="submit" color="primary" disabled={!this.state.submitEnable}>
               送出
             </Button>
           </Form>
