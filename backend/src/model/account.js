@@ -1,6 +1,7 @@
 'use strict';
 
 const BaseModel = require('./base-model');
+const { Model } = require('objection');
 
 class Account extends BaseModel {
   static get tableName() {
@@ -16,6 +17,23 @@ class Account extends BaseModel {
     this.active = true;
     this.createTime = null;
     this.lastUpdateTime = null;
+  }
+
+  static get relationMappings() {
+    return {
+      projects: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/project`,
+        join: {
+          from: 'account.id',
+          through: {
+            from: 'account_project.account_name',
+            to: 'account_project.project_name'
+          },
+          to: 'project.id'
+        }
+      }
+    };
   }
 
   static get jsonSchema() {
