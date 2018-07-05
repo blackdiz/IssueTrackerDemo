@@ -47,7 +47,7 @@ module.exports = {
       await accountRepository.save(cloneAccount, tx);
       tx.commit();
     } catch (err) {
-      logger.error(err.name);
+      logger.error(err);
       tx.rollback();
       throw err;
     }
