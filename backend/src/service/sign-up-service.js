@@ -45,10 +45,10 @@ module.exports = {
       Object.assign(cloneAccount, account);
       cloneAccount.password = await bcrypt.hash(account.password, 10);
       await accountRepository.save(cloneAccount, tx);
-      tx.commit();
+      await tx.commit();
     } catch (err) {
       logger.error(err);
-      tx.rollback();
+      await tx.rollback();
       throw err;
     }
   }

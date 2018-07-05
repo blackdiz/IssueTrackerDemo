@@ -30,11 +30,11 @@ module.exports = {
         return null;
       }
       await accountRepository.updateLoginTime(account.name, tx);
-      tx.commit();
+      await tx.commit();
       return account;
     } catch (err) {
       logger.error(err);
-      tx.rollback();
+      await tx.rollback();
       return null;
     }
   }
