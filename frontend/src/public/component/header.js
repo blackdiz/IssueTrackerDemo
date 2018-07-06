@@ -14,9 +14,7 @@ const Header = (props) => {
         </NavLink>
       </NavItem>,
       <NavItem key="logout">
-        <NavLink tag={Link} to={{ pathname: '/sign-up' }}>
-          登出
-        </NavLink>
+        <NavLink onClick={props.logout}>登出</NavLink>
       </NavItem>
     ];
   } else {
@@ -33,6 +31,7 @@ const Header = (props) => {
       </NavItem>
     ];
   }
+
   return (
     <Navbar color="info" dark expand="sm">
       <NavbarBrand href="/">
