@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const webpack = require('webpack');
+const history = require('connect-history-api-fallback');
+const convert = require('koa-connect');
 
 module.exports = {
   mode: 'development',
@@ -14,6 +16,7 @@ module.exports = {
     index: ['babel-polyfill', './public/index/index.js']
   },
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, 'dist'),
     filename: '[name]_bundle.js'
   },
@@ -48,7 +51,13 @@ module.exports = {
     })
   ],
   serve: {
+    content: path.join(__dirname, 'dist'),
     logTime: true,
-    hot: true
+    hot: true,
+    host: 'issue-tracker-demo.com',
+    add: (app, middleware) => {
+      middleware.webpack();
+      app.use(convert(history()));
+    }
   }
 };
