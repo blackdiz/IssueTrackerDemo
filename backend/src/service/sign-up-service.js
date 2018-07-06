@@ -48,7 +48,9 @@ module.exports = {
       await tx.commit();
     } catch (err) {
       logger.error(err);
+
       await tx.rollback();
+
       throw err;
     }
   }
