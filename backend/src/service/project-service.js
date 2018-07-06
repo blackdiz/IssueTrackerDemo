@@ -1,9 +1,9 @@
 'use strict';
 
 const Project = require('../model/project');
-const Account = require('../model/account');
 const transaction = require('../utils/transaction');
 const accountRepository = require('../repositories/account-repository');
+const projectRepository = require('../repositories/project-repository');
 const logger = require('../config/logger');
 
 module.exports = {
@@ -48,9 +48,7 @@ module.exports = {
         throw err;
       }
 
-      const projects = await account
-        .$relatedQuery('projects', tx)
-        .column('id', 'name', 'description');
+      const projects = await projectRepository.findByAccount(account, tx);
 
       await tx.commit();
 
