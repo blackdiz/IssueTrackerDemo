@@ -8,10 +8,6 @@ class Project extends BaseModel {
     return 'project';
   }
 
-  static get idColumn() {
-    return 'name';
-  }
-
   constructor() {
     super();
     this.createTime = this.createTime;
@@ -24,9 +20,9 @@ class Project extends BaseModel {
         relation: Model.ManyToManyRelation,
         modelClass: `${__dirname}/account`,
         join: {
-          from: 'project.name',
+          from: 'project.id',
           through: {
-            from: 'account_project.project_name',
+            from: 'account_project.project_id',
             to: 'account_project.account_name'
           },
           to: 'account.name'
@@ -38,9 +34,10 @@ class Project extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'creator'],
+      required: ['identify', 'name', 'creator'],
 
       properties: {
+        identify: { type: 'string', maxLength: 50 },
         name: { type: 'string', maxLength: 50 },
         creator: { type: 'creator', maxLength: 20 },
         isPublic: { type: 'boolean' }

@@ -8,7 +8,13 @@ module.exports = {
       project: Joi.object()
         .required()
         .keys({
-          name: Joi.string().required(),
+          id: Joi.string()
+            .max(50)
+            .alphanum()
+            .required(),
+          name: Joi.string()
+            .max(50)
+            .required(),
           description: Joi.string().required(),
           isPublic: Joi.boolean().required()
         })

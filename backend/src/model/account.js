@@ -28,9 +28,9 @@ class Account extends BaseModel {
           from: 'account.name',
           through: {
             from: 'account_project.account_name',
-            to: 'account_project.project_name'
+            to: 'account_project.project_id'
           },
-          to: 'project.name'
+          to: 'project.id'
         }
       }
     };

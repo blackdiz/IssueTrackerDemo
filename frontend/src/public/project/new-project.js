@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Row, Col, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Row, Col, Button, FormText } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 class NewProject extends Component {
@@ -14,6 +14,7 @@ class NewProject extends Component {
       submitEnable: true,
       errorMessage: '',
       project: {
+        id: '',
         name: '',
         description: '',
         isPublic: true
@@ -25,43 +26,50 @@ class NewProject extends Component {
     const newProject = Object.assign({}, this.state.project);
     if (e.target.name === 'isPublic') {
       newProject['isPublic'] = e.target.checked;
+    } else if (e.target.name === 'id') {
+      var alphanum = /^[a-z0-9]+$/i;
+      if (e.target.value.match(alphanum) !== null) {
+        newProject['id'] = e.target.value;
+      }
     } else {
       newProject[`${e.target.name}`] = e.target.value;
     }
     this.setState({ project: newProject });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     this.setState({ submitEnable: false });
     const project = Object.assign({}, this.state.project);
-    (async () => {
-      try {
-        const res = await fetch(API_URL + '/api/project', {
-          body: JSON.stringify({ project: project }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'POST',
-          credentials: 'include'
-        });
-        if (res.status === 200) {
-          this.setState({ createSuccess: true });
+    let createSuccess = false;
+    try {
+      const res = await fetch(API_URL + '/api/project', {
+        body: JSON.stringify({ project: project }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (res.status === 200) {
+        createSuccess = true;
+      } else {
+        const response = await res.json();
+        if (res.status === 400) {
+          this.setState({ signUpMessage: response.errorMessage });
         } else {
-          const response = await res.json();
-          if (res.status === 400) {
-            this.setState({ signUpMessage: response.errorMessage });
-          } else {
-            this.setState({ signUpMessage: '新增失敗' });
-          }
+          this.setState({ signUpMessage: '新增失敗' });
         }
-      } catch (err) {
-        console.error(err);
-        this.setState({ errorMessage: '新增失敗' });
       }
-
+    } catch (err) {
+      console.error(err);
+      this.setState({ errorMessage: '新增失敗' });
+    }
+    if (createSuccess === true) {
+      this.setState({ createSuccess: createSuccess });
+    } else {
       this.setState({ submitEnable: true });
-    })();
+    }
   }
 
   render() {
@@ -79,6 +87,22 @@ class NewProject extends Component {
         <Row className="justify-content-sm-center">
           <Col sm={10} className="bg-light">
             <Form className="mt-3 mb-3" onSubmit={this.handleSubmit}>
+              <FormGroup row>
+                <Col sm={2}>
+                  <Label from="id">識別代碼</Label>
+                </Col>
+                <Col sm={10}>
+                  <Input
+                    value={this.state.project.id}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="id"
+                    maxLength="50"
+                    required
+                  />
+                  <FormText>識別代碼最多50個字，且只可為大小寫英數字組合</FormText>
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Col sm={2}>
                   <Label for="name">名稱</Label>

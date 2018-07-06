@@ -46,19 +46,20 @@ primary key (name)
 
 --專案
 create table project(
+id varchar(50),
 name varchar(50),
 description text,
 is_public boolean default true,
 creator varchar(20) references account(name),
 create_time timestamp with time zone not null,
 last_update_time timestamp with time zone not null,
-primary key (name)
+primary key (id)
 );
 
 --需求
 create table issue(
 id serial,
-name varchar(50) references project(name),
+project_id varchar(50) references project(id),
 title varchar(100) not null,
 description text,
 status_id int not null references status(id),
@@ -90,6 +91,6 @@ primary key(id)
 --帳號_專案_Mapping
 create table account_project(
 account_name varchar(20) not null references account(name),
-project_name varchar(50) not null references project(name),
-primary key(account_name, project_name)
+project_id varchar(50) not null references project(id),
+primary key(account_name, project_id)
 );
