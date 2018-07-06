@@ -39,15 +39,14 @@ class SignUpForm extends Component {
       if (res.status === 200) {
         this.setState({ signUpMessage: '註冊成功' });
       } else {
-        const response = await res.json();
+        const response = await res.text();
         if (res.status === 400) {
-          this.setState({ signUpMessage: response.errorMessage });
+          this.setState({ signUpMessage: response });
         } else {
           this.setState({ signUpMessage: '註冊失敗' });
         }
       }
     } catch (err) {
-      console.error(err);
       this.setState({ signUpMessage: '註冊失敗' });
     }
 

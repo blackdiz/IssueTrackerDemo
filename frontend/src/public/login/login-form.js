@@ -44,16 +44,15 @@ class LoginForm extends Component {
         this.props.login(true);
         loginSuccess = true;
       } else {
-        const response = await res.json();
+        const response = await res.text();
         if (res.status === 400) {
-          this.setState({ signUpMessage: response.errorMessage });
+          this.setState({ signUpMessage: response });
         } else {
           this.setState({ signUpMessage: '登入失敗' });
         }
         this.props.login(false);
       }
     } catch (err) {
-      console.error(err);
       this.setState({ signUpMessage: '登入失敗' });
       this.props.login(false);
     }
@@ -67,7 +66,7 @@ class LoginForm extends Component {
 
   render() {
     if (this.state.loginSuccess === true) {
-      return <Redirect to="/" />;
+      return <Redirect to={{ pathname: '/' }} />;
     }
 
     return (
