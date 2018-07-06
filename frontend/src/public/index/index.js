@@ -11,6 +11,7 @@ import SignUpForm from '../sign-up/sign-up-form';
 import LoginForm from '../login/login-form';
 import ProjectDashBoard from '../project/project-dashboard';
 import NewProject from '../project/new-project';
+import NoMatch from '../component/no-match';
 import 'babel-polyfill';
 
 class App extends Component {
@@ -63,6 +64,7 @@ class App extends Component {
               <Route path="/sign-up" component={SignUpForm} />
               <Route exact path="/project" component={ProjectDashBoard} />
               <Route path="/project/new" component={NewProject} />
+              <Route component={NoMatch} />
             </Switch>
           </Container>
         </div>
