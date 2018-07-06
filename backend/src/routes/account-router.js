@@ -6,9 +6,9 @@ const logger = require('../config/logger');
 
 router.post('/', (req, res) => {
   if (!req.body.accountname) {
-    res.status(400).json({ errorMessage: '請輸入使用者名稱' });
+    res.status(400).end('請輸入使用者名稱');
   } else if (!req.body.password) {
-    res.status(400).json({ errorMessage: '請輸入密碼' });
+    res.status(400).end('請輸入密碼');
   } else {
     (async () => {
       try {
@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
         res.end();
       } catch (err) {
         if (err.name === 'duplicateAccount') {
-          res.status(400).json({ errorMessage: '已有此使用者名稱' });
+          res.status(400).end('已有此使用者名稱');
         } else {
           logger.error(JSON.stringify(err));
           res.status(500).end();
