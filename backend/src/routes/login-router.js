@@ -27,6 +27,12 @@ router.post(
         }
       } catch (err) {
         logger.error(err);
+        if (err.name === 'noAccount') {
+          res.status(400).end('使用者名稱不存在');
+        }
+        if (err.name === 'invalidPassword') {
+          res.status(400).end('密碼錯誤');
+        }
         res.status(400).end();
       }
     })();

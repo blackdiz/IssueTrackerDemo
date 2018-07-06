@@ -22,20 +22,29 @@ module.exports = {
       tx = await transaction();
       account = await accountRepository.findByName(accountname, tx);
       if (!account) {
-        logger.info(`No account name: ${accountname} exist`);
-        return null;
+        logger.error(`No account name:${accountname} exist`);
+        const err = {
+          name: 'noAccount'
+        };
+        throw err;
       }
       if (!(await validatePassword(password, account.password))) {
-        logger.info(`Account: ${accountname} password is invalide`);
-        return null;
+        logger.error(`Account:${accountname} password is invalide`);
+        const err = {
+          name: 'invalidPassword'
+        };
+        throw err;
       }
       await accountRepository.updateLoginTime(account.name, tx);
       await tx.commit();
+
       return account;
     } catch (err) {
       logger.error(err);
+
       await tx.rollback();
-      return null;
+
+      throw err;
     }
   }
 };
