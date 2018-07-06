@@ -1,8 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Row, Col, Button, ListGroup, ListGroupItem } from 'reactstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Row, Col, Button } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
+import ProjectsTable from './projects-table';
 
 class ProjectDashboard extends Component {
   constructor(props) {
@@ -38,16 +39,6 @@ class ProjectDashboard extends Component {
       return <Redirect push to={{ pathname: '/project/new' }} />;
     }
 
-    const projectList = this.state.projects.map((project) => {
-      return (
-        <ListGroupItem key={project.id}>
-          <Link to={{ pathname: `/project/${project.id}` }}>
-            <h4>{project.name}</h4>
-          </Link>
-        </ListGroupItem>
-      );
-    });
-
     return (
       <div>
         <Row className="justify-content-sm-end">
@@ -64,7 +55,7 @@ class ProjectDashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <ListGroup flush>{projectList}</ListGroup>
+            <ProjectsTable projects={this.state.projects} />
           </Col>
         </Row>
       </div>

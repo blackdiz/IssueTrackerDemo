@@ -48,7 +48,9 @@ module.exports = {
         throw err;
       }
 
-      const projects = await account.$relatedQuery('projects', tx).column('id', 'name');
+      const projects = await account
+        .$relatedQuery('projects', tx)
+        .column('id', 'name', 'description');
 
       await tx.commit();
 
