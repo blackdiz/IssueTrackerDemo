@@ -47,9 +47,9 @@ app.use((req, res, next) => {
   }
 });
 
-// 只接受application/json的request強制CORS的prefight，避免CORS
+// 若非GET則只接受application/json的request強制CORS的prefight，避免CORS
 app.use((req, res, next) => {
-  if (req.is('application/json')) {
+  if (req.method === 'GET' || (req.method === 'POST' && req.is('application/json'))) {
     next();
   } else {
     res.status(406).end();
@@ -63,6 +63,7 @@ app.use('/api/project', require('./routes/project-router'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
+    logger.error(err);
     res.status(err.status).json(err);
   }
 });
