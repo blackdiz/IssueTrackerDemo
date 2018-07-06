@@ -15,7 +15,7 @@ const port = process.env.Production || 3000;
 const corsOption = {
   origin: 'http://issue-tracker-demo.com:8080',
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Cache-Control']
+  allowedHeaders: 'Content-Type'
 };
 
 app.use(helmet());
