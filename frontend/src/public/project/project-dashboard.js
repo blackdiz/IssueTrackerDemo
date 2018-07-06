@@ -1,8 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import { Row, Col, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Redirect, Link } from 'react-router-dom';
 
 class ProjectDashboard extends Component {
   constructor(props) {
@@ -18,10 +18,35 @@ class ProjectDashboard extends Component {
     this.setState({ redirect: true });
   }
 
+  componentDidMount() {
+    (async () => {
+      const res = await fetch(API_URL + '/api/project', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (res.status === 200) {
+        const projects = await res.json();
+        if (Array.isArray(projects)) {
+          this.setState({ projects: projects });
+        }
+      }
+    })();
+  }
+
   render() {
     if (this.state.redirect === true) {
       return <Redirect push to={{ pathname: '/project/new' }} />;
     }
+
+    const projectList = this.state.projects.map((project) => {
+      return (
+        <ListGroupItem key={project.id}>
+          <Link to={{ pathname: `/project/${project.id}` }}>
+            <h4>{project.name}</h4>
+          </Link>
+        </ListGroupItem>
+      );
+    });
 
     return (
       <div>
@@ -38,7 +63,9 @@ class ProjectDashboard extends Component {
           </Col>
         </Row>
         <Row>
-          <Col>{this.state.projects}</Col>
+          <Col>
+            <ListGroup flush>{projectList}</ListGroup>
+          </Col>
         </Row>
       </div>
     );
