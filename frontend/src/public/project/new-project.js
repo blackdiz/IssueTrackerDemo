@@ -1,8 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Row, Col, Button, FormText } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
+import ProjectForm, { handleProjectFormChange } from './project-form';
 
 class NewProject extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class NewProject extends Component {
     this.state = {
       createSuccess: false,
       submitEnable: true,
-      errorMessage: '',
+      submitMessage: '',
       project: {
         id: '',
         name: '',
@@ -24,16 +24,7 @@ class NewProject extends Component {
 
   handleChange(e) {
     const newProject = Object.assign({}, this.state.project);
-    if (e.target.name === 'isPublic') {
-      newProject['isPublic'] = e.target.checked;
-    } else if (e.target.name === 'id') {
-      var alphanum = /^[a-z0-9]+$/i;
-      if (e.target.value.match(alphanum) !== null) {
-        newProject['id'] = e.target.value;
-      }
-    } else {
-      newProject[`${e.target.name}`] = e.target.value;
-    }
+    handleProjectFormChange(e, newProject);
     this.setState({ project: newProject });
   }
 
@@ -78,86 +69,16 @@ class NewProject extends Component {
     }
 
     return (
-      <div className="mt-5">
-        <Row>
-          <Col sm={{ offset: 1 }}>
-            <h3>建立新專案</h3>
-          </Col>
-        </Row>
-        <Row className="justify-content-sm-center">
-          <Col sm={10} className="bg-light">
-            <Form className="mt-3 mb-3" onSubmit={this.handleSubmit}>
-              <FormGroup row>
-                <Col sm={2}>
-                  <Label from="id">識別代碼</Label>
-                </Col>
-                <Col sm={10}>
-                  <Input
-                    value={this.state.project.id}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="id"
-                    maxLength="50"
-                    required
-                  />
-                  <FormText>識別代碼最多50個字，且只可為大小寫英數字組合</FormText>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col sm={2}>
-                  <Label for="name">名稱</Label>
-                </Col>
-                <Col sm={10}>
-                  <Input
-                    value={this.state.project.name}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="name"
-                    id="name"
-                    maxLength="50"
-                    required
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col sm={2}>
-                  <Label for="description">簡述</Label>
-                </Col>
-                <Col sm={10}>
-                  <Input
-                    value={this.state.project.description}
-                    onChange={this.handleChange}
-                    type="textarea"
-                    name="description"
-                    id="description"
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col sm={2}>
-                  <Label for="isPublic">是否公開</Label>
-                </Col>
-                <Col sm={10}>
-                  <FormGroup check>
-                    <Input
-                      type="checkbox"
-                      name="isPublic"
-                      id="isPublic"
-                      checked={this.state.project.isPublic}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-              </FormGroup>
-              <Button color="primary" type="submit" disabled={!this.state.submitEnable}>
-                建立
-              </Button>
-            </Form>
-            <div>{this.state.errorMessage}</div>
-          </Col>
-        </Row>
-      </div>
+      <ProjectForm
+        title="新增專案"
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+        project={this.state.project}
+        disableId={false}
+        button="送出"
+        submitMessage={this.state.submitMessage}
+        submitEnable={this.state.submitEnable}
+      />
     );
   }
 }
