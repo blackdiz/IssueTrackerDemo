@@ -7,9 +7,9 @@ const ProjectsTable = (props) => {
   if (props.projects) {
     const projectLinks = props.projects.map((project) => {
       return (
-        <tr>
+        <tr key={project.id}>
           <td scope="row">
-            <Link to={{ pathname: `${project.id}` }}>{project.name}</Link>
+            <Link to={{ pathname: `/project/${project.id}` }}>{project.name}</Link>
           </td>
           <td>{project.description}</td>
         </tr>
