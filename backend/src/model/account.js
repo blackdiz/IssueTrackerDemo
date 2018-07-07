@@ -4,10 +4,6 @@ const BaseModel = require('./base-model');
 const { Model } = require('objection');
 
 class Account extends BaseModel {
-  static get tableName() {
-    return 'account';
-  }
-
   static get idColumn() {
     return 'name';
   }

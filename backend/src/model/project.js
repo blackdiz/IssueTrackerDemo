@@ -4,10 +4,6 @@ const BaseModel = require('./base-model');
 const { Model } = require('objection');
 
 class Project extends BaseModel {
-  static get tableName() {
-    return 'project';
-  }
-
   constructor() {
     super();
     this.createTime = this.createTime;
