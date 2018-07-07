@@ -15,7 +15,7 @@ module.exports = {
       tx = await transaction();
       const dbAccount = await accountRepository.findByName(account.name, tx);
       if (dbAccount) {
-        await dbAccount.$relatedQuery('projects', tx).insert(newProject);
+        await projectRepository.saveProjectOfAccount(dbAccount, newProject, tx);
         await tx.commit();
 
         return newProject;
@@ -59,6 +59,51 @@ module.exports = {
       await tx.rollback();
 
       throw err;
+    }
+  },
+  getProject: async (accountName, projectId) => {
+    let tx;
+    try {
+      tx = await transaction();
+      const account = await accountRepository.findByName(accountName, tx);
+      if (!account) {
+        logger.error(`Get projects of ${accountName} failed. Acount not exists.`);
+        const err = {
+          name: 'noAccount'
+        };
+        throw err;
+      }
+
+      const project = await projectRepository.findByAccountAndId(account, projectId, tx);
+
+      await tx.commit();
+
+      return project;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      throw err;
+    }
+  },
+  updateProject: async (newProject, projectId) => {
+    let tx;
+    try {
+      tx = await transaction();
+      const updateNum = await projectRepository.updateProject(newProject, projectId, tx);
+      await tx.commit();
+      if (updateNum === 0) {
+        return null;
+      }
+
+      return newProject;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      return null;
     }
   }
 };

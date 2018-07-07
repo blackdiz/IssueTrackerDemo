@@ -34,10 +34,10 @@ class Project extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['identify', 'name', 'creator'],
+      required: ['id', 'name', 'creator'],
 
       properties: {
-        identify: { type: 'string', maxLength: 50 },
+        id: { type: 'string', maxLength: 50 },
         name: { type: 'string', maxLength: 50 },
         creator: { type: 'creator', maxLength: 20 },
         isPublic: { type: 'boolean' }
