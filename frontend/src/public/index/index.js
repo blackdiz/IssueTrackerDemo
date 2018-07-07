@@ -9,8 +9,7 @@ import Header from '../component/header';
 import Home from './home';
 import SignUpForm from '../sign-up/sign-up-form';
 import LoginForm from '../login/login-form';
-import ProjectDashBoard from '../project/project-dashboard';
-import NewProject from '../project/new-project';
+import ProjectLayout from '../project/project-layout';
 import NoMatch from '../component/no-match';
 import 'babel-polyfill';
 
@@ -62,8 +61,7 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
-              <Route exact path="/project" component={ProjectDashBoard} />
-              <Route path="/project/new" component={NewProject} />
+              <Route path="/project" component={ProjectLayout} />
               <Route component={NoMatch} />
             </Switch>
           </Container>
