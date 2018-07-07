@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import ProjectsTable from './projects-table';
 
-class ProjectDashboard extends Component {
+class ProjectIndex extends Component {
   constructor(props) {
     super(props);
     this.handClick = this.handClick.bind(this);
@@ -63,4 +63,4 @@ class ProjectDashboard extends Component {
   }
 }
 
-export default ProjectDashboard;
+export default ProjectIndex;
