@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import ProjectForm, { handleProjectFormChange } from './project-form';
+import ProjectHeader from './project-header';
 
 class ProjectDetail extends Component {
   constructor(props) {
@@ -59,16 +60,19 @@ class ProjectDetail extends Component {
 
   render() {
     return (
-      <ProjectForm
-        title="更改專案資料"
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        project={this.state.project}
-        disableId={true}
-        button="修改"
-        submitMessage={this.state.submitMessage}
-        submitEnable={this.state.submitEnable}
-      />
+      <div>
+        <ProjectHeader />
+        <ProjectForm
+          title="更改專案資料"
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          project={this.state.project}
+          disableId={true}
+          button="修改"
+          submitMessage={this.state.submitMessage}
+          submitEnable={this.state.submitEnable}
+        />
+      </div>
     );
   }
 }
