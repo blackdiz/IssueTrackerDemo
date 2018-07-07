@@ -2,9 +2,22 @@ drop table if exists attachment;
 drop table if exists issue;
 drop table if exists tag;
 drop table if exists status;
+drop table if exists priority;
 drop table if exists account_project;
 drop table if exists project;
 drop table if exists account;
+
+--優先度
+create table priority(
+id serial,
+name varchar(10) not null,
+primary key (id)
+);
+alter sequence priority_id_seq restart with 1;
+
+insert into priority(name) values('低');
+insert into priority(name) values('正常');
+insert into priority(name) values('高');
 
 --追蹤標籤
 create table tag(
@@ -63,7 +76,7 @@ project_id varchar(50) references project(id),
 title varchar(100) not null,
 description text,
 status_id int not null references status(id),
-priority varchar(20) not null,
+priority_id int not null references priority(id),
 tag_id int not null references tag(id),
 assigned_account varchar(100),
 estimate_work_hour smallint,
