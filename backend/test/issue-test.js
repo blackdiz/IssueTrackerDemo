@@ -6,7 +6,7 @@ const Project = require('../src/model/project');
 const Issue = require('../src/model/issue');
 const accountRepository = require('../src/repositories/account-repository');
 const projectRepository = require('../src/repositories/project-repository');
-const issueRepository = require('../src/repositories/issue_repository');
+const issueRepository = require('../src/repositories/issue-repository');
 const transaction = require('../src/utils/transaction');
 
 describe('issueRepository test', () => {
