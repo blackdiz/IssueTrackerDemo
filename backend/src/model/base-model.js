@@ -1,6 +1,7 @@
 'use strict';
 
 const { Model, snakeCaseMappers } = require('objection');
+const moment = require('moment-timezone');
 
 class BaseModel extends Model {
   static get columnNameMappers() {
@@ -9,16 +10,16 @@ class BaseModel extends Model {
 
   $beforeInsert() {
     if (Object.prototype.hasOwnProperty.call(this, 'createTime')) {
-      this.createTime = new Date().toISOString();
+      this.createTime = moment(new Date()).format();
     }
     if (Object.prototype.hasOwnProperty.call(this, 'lastUpdateTime')) {
-      this.lastUpdateTime = new Date().toISOString();
+      this.lastUpdateTime = moment(new Date()).format();
     }
   }
 
   $beforeUpdate() {
     if (Object.prototype.hasOwnProperty.call(this, 'lastUpdateTime')) {
-      this.lastUpdateTime = new Date().toISOString();
+      this.lastUpdateTime = moment(new Date()).format();
     }
   }
 }
