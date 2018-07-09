@@ -9,7 +9,7 @@ const Header = (props) => {
   if (props.isLoggedIn === true) {
     navItems = [
       <NavItem key="project">
-        <NavLink tag={Link} to={{ pathname: '/project' }}>
+        <NavLink tag={Link} to="/project">
           專案首頁
         </NavLink>
       </NavItem>,
@@ -20,12 +20,12 @@ const Header = (props) => {
   } else {
     navItems = [
       <NavItem key="login">
-        <NavLink tag={Link} to={{ pathname: '/login' }}>
+        <NavLink tag={Link} to="/login">
           登入
         </NavLink>
       </NavItem>,
       <NavItem key="signUp">
-        <NavLink tag={Link} to={{ pathname: '/sign-up' }}>
+        <NavLink tag={Link} to="/sign-up">
           註冊
         </NavLink>
       </NavItem>
