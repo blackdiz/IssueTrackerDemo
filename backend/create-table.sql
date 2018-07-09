@@ -39,12 +39,12 @@ primary key(id)
 );
 alter sequence status_id_seq restart with 1;
 
-insert into status(name) values('New');
-insert into status(name) values('In Progress');
-insert into status(name) values('Resolved');
-insert into status(name) values('Feedback');
-insert into status(name) values('Closed');
-insert into status(name) values('Rejected');
+insert into status(name) values('新建');
+insert into status(name) values('進行中');
+insert into status(name) values('已解決');
+insert into status(name) values('已回應');
+insert into status(name) values('已結案');
+insert into status(name) values('拒絕');
 
 --帳號
 create table account(
