@@ -2,15 +2,20 @@
 
 import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const ProjectHeader = (props) => {
   return (
     <Nav tabs>
       <NavItem>
-        <NavLink>專案資訊</NavLink>
+        <NavLink tag={Link} to={`${props.match.path}`}>
+          專案資訊
+        </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink>問題清單</NavLink>
+        <NavLink tag={Link} to={`${props.match.path}/issue`}>
+          問題清單
+        </NavLink>
       </NavItem>
     </Nav>
   );

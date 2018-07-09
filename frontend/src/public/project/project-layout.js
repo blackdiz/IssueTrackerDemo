@@ -5,13 +5,14 @@ import { Switch, Route } from 'react-router-dom';
 import ProjectIndex from './project-index';
 import NewProject from './new-project';
 import ProjectDetail from './project-detail';
+import IssueLayout from '../issue/issue-layout';
 
 const ProjectLayout = (props) => {
   return (
     <Switch>
-      <Route exact path="/project" component={ProjectIndex} />
-      <Route exact path={`${props.match.url}/new`} component={NewProject} />
-      <Route path={`${props.match.url}/:id`} component={ProjectDetail} />
+      <Route exact path={`${props.match.path}`} component={ProjectIndex} />
+      <Route exact path={`${props.match.path}/new`} component={NewProject} />
+      <Route path={`${props.match.path}/:id`} component={ProjectDetail} />
     </Switch>
   );
 };

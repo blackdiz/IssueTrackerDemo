@@ -8,15 +8,9 @@ import ProjectsTable from './projects-table';
 class ProjectIndex extends Component {
   constructor(props) {
     super(props);
-    this.handClick = this.handClick.bind(this);
     this.state = {
-      redirect: false,
       projects: []
     };
-  }
-
-  handClick() {
-    this.setState({ redirect: true });
   }
 
   componentDidMount() {
@@ -35,15 +29,11 @@ class ProjectIndex extends Component {
   }
 
   render() {
-    if (this.state.redirect === true) {
-      return <Redirect push to={{ pathname: '/project/new' }} />;
-    }
-
     return (
       <div>
-        <Row className="justify-content-sm-end">
+        <Row className="justify-content-sm-end mt-3">
           <Col sm={1}>
-            <Button color="danger" style={{ fontSize: '14px' }} onClick={this.handClick}>
+            <Button color="danger" size="sm" tag="a" href={`${this.props.match.path}/new`}>
               建立新專案
             </Button>
           </Col>
