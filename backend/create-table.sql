@@ -27,9 +27,9 @@ primary key (id)
 );
 alter sequence tag_id_seq restart with 1;
 
-insert into tag(name) values('Bug');
-insert into tag(name) values('Feature');
-insert into tag(name) values('Support');
+insert into tag(name) values('臭蟲');
+insert into tag(name) values('功能');
+insert into tag(name) values('支援');
 
 --狀態
 create table status(
