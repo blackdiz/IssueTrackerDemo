@@ -40,7 +40,7 @@ module.exports = {
 
       return account;
     } catch (err) {
-      logger.error(err);
+      logger.error(JSON.stringify(err));
 
       await tx.rollback();
 
