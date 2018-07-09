@@ -74,4 +74,9 @@ router.put('/:id', validate(schema.project), (req, res) => {
   })();
 });
 
+router.get('/:id/issue', (req, res) => {
+  (async () => {
+    res.status(200).json(await projectService.getIssuesOfProject(req.params.id));
+  })();
+});
 module.exports = router;

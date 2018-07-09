@@ -4,6 +4,7 @@ const Project = require('../model/project');
 const transaction = require('../utils/transaction');
 const accountRepository = require('../repositories/account-repository');
 const projectRepository = require('../repositories/project-repository');
+const issueRepository = require('../repositories/issue-repository');
 const logger = require('../config/logger');
 
 module.exports = {
@@ -104,6 +105,29 @@ module.exports = {
       await tx.rollback();
 
       return null;
+    }
+  },
+  getIssuesOfProject: async (projectId) => {
+    let tx;
+    try {
+      tx = await transaction();
+      const project = await projectRepository.findById(projectId);
+      let issues = [];
+      if (project) {
+        issues = await issueRepository.findAllByProject(project, tx);
+      } else {
+        logger.info(`Project id: ${projectId} not exists`);
+      }
+
+      await tx.commit();
+
+      return issues;
+    } catch (err) {
+      logger.error(JSON.stringify(err));
+
+      await tx.rollback();
+
+      return [];
     }
   }
 };

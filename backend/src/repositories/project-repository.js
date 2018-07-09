@@ -8,6 +8,7 @@ module.exports = {
   findByAccount: (account, tx) =>
     account.$relatedQuery('projects', tx).column('id', 'name', 'description'),
   findByAccountAndId: (account, id, tx) => account.$relatedQuery('projects', tx).findOne({ id }),
+  findById: (projectId, tx) => Project.query(tx).findById(projectId),
   updateProject: (project, projectId, tx) =>
     Project.query(tx)
       .update(project)
