@@ -63,7 +63,7 @@ id varchar(50),
 name varchar(50),
 description text,
 is_public boolean default true,
-creator varchar(20) references account(name),
+creator varchar(20) references account(name) not null,
 create_time timestamp with time zone not null,
 last_update_time timestamp with time zone not null,
 primary key (id)
@@ -83,11 +83,12 @@ estimate_work_hour smallint,
 estimate_start_date date,
 estimate_end_date date,
 finished_percent smallint,
-creator varchar(20) references account(name),
+creator varchar(20) references account(name) not null,
 create_time timestamp with time zone not null,
 last_update_time timestamp with time zone not null,
 primary key (id)
 );
+alter sequence issue_id_seq restart with 1;
 
 --需求附件
 create table attachment(
