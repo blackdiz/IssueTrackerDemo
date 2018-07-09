@@ -8,7 +8,6 @@ const accountRepository = require('../src/repositories/account-repository');
 const projectRepository = require('../src/repositories/project-repository');
 const issueRepository = require('../src/repositories/issue_repository');
 const transaction = require('../src/utils/transaction');
-const moment = require('moment-timezone');
 
 describe('issueRepository test', () => {
   let tx;
@@ -58,8 +57,6 @@ describe('issueRepository test', () => {
     it('find all issues of a project', async () => {
       const dbIssue = await issueRepository.findAllByProject(project, tx);
       console.log(dbIssue);
-      console.log(dbIssue[0].createTime);
-      console.log(dbIssue[0].lastUpdateTime);
       assert.strictEqual(dbIssue.length, 1);
       assert.deepEqual(dbIssue[0], savedIssue);
     });
