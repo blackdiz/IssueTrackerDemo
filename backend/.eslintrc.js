@@ -8,6 +8,7 @@ module.exports = {
     mocha: true
   },
   rules: {
-    'no-use-before-define': ['warn', { functions: false }]
+    'no-use-before-define': ['warn', { functions: false }],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }]
   }
 };
