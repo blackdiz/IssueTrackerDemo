@@ -4,6 +4,10 @@ const BaseModel = require('./base-model');
 const { Model } = require('objection');
 
 class Project extends BaseModel {
+  static get tableName() {
+    return 'project';
+  }
+
   constructor() {
     super();
     this.createTime = this.createTime;
@@ -22,6 +26,14 @@ class Project extends BaseModel {
             to: 'account_project.account_name'
           },
           to: 'account.name'
+        }
+      },
+      issues: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/issue`,
+        join: {
+          from: 'project.id',
+          to: 'issue.project_id'
         }
       }
     };
