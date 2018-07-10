@@ -11,13 +11,14 @@ drop table if exists account;
 create table priority(
 id serial,
 name varchar(10) not null,
+"order" smallint not null,
 primary key (id)
 );
 alter sequence priority_id_seq restart with 1;
 
-insert into priority(name) values('低');
-insert into priority(name) values('正常');
-insert into priority(name) values('高');
+insert into priority(name, "order") values('低', 1);
+insert into priority(name, "order") values('正常', 2);
+insert into priority(name, "order") values('高', 3);
 
 --追蹤標籤
 create table tag(
@@ -80,8 +81,8 @@ priority_id int not null references priority(id),
 tag_id int not null references tag(id),
 assigned_account varchar(20) references account(name),
 estimate_work_hour smallint,
-estimate_start_date date,
-estimate_end_date date,
+start_date date,
+end_date date,
 finished_percent smallint,
 creator varchar(20) references account(name) not null,
 create_time timestamp with time zone not null,
