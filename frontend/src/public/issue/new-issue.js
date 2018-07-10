@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Row, Col, Form, FormGroup, Input, Button, Label } from 'reactstrap';
 
 async function fetchTags() {
-  console.log('test2');
   const res = await fetch(API_URL + '/api/issue-option/tag', {
     method: 'GET',
     credentials: 'include'
