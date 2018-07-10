@@ -31,7 +31,7 @@ class IssueIndex extends Component {
     return (
       <div className="mt-2">
         <div className="d-flex justify-content-sm-end">
-          <Button size="sm" color="danger" tag="a" href="/project">
+          <Button size="sm" color="danger" tag="a" href={`${this.props.match.url}/new`}>
             建立新問題
           </Button>
         </div>
