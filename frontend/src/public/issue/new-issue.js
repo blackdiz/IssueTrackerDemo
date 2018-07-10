@@ -54,6 +54,16 @@ async function fetchPriorities() {
   }
 }
 
+function getFinishedPercent() {
+  return Array.from(Array(11).keys(), (i) => i * 10).map((num) => {
+    return (
+      <option key={num} value={num}>
+        {num}%
+      </option>
+    );
+  });
+}
+
 class NewIssue extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +73,8 @@ class NewIssue extends Component {
       },
       tags: [],
       status: [],
-      priorities: []
+      priorities: [],
+      finishedPercent: getFinishedPercent()
     };
   }
 
@@ -179,7 +190,9 @@ class NewIssue extends Component {
                   <Label for="finishedPercent">完成百分比</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="input" name="finishedPercent" id="finishedPercent" />
+                  <Input type="select" name="finishedPercent" id="finishedPercent">
+                    {this.state.finishedPercent}
+                  </Input>
                 </Col>
               </FormGroup>
             </Form>
