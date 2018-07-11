@@ -89,6 +89,9 @@ class IssueForm extends Component {
       if (Array.isArray(priorities)) {
         this.setState({ priorities: priorities });
       }
+      if (this.props.handleInit) {
+        this.props.handleInit(tags, status, priorities);
+      }
     })();
   }
 
