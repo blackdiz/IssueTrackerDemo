@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const ProjectsTable = (props) => {
   if (props.projects) {
+    const accountName = window.localStorage['accountName'];
     const projectLinks = props.projects.map((project) => {
       return (
         <tr key={project.id}>
@@ -12,16 +13,20 @@ const ProjectsTable = (props) => {
             <Link to={{ pathname: `/project/${project.id}` }}>{project.name}</Link>
           </td>
           <td>{project.description}</td>
-          <td>
-            <Button
-              color="warning"
-              onClick={() => {
-                props.handleDelete(project.id);
-              }}
-            >
-              X
-            </Button>
-          </td>
+          {accountName === project.creator ? (
+            <td>
+              <Button
+                color="warning"
+                onClick={() => {
+                  props.handleDelete(project.id);
+                }}
+              >
+                X
+              </Button>
+            </td>
+          ) : (
+            <td />
+          )}
         </tr>
       );
     });

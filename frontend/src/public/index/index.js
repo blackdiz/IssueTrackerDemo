@@ -25,6 +25,7 @@ class App extends Component {
 
   logout() {
     window.localStorage.removeItem('loggedInTime');
+    window.localStorage.removeItem('accountName');
     this.setState({ isLoggedIn: false });
     const history = createHistory();
     history.push('/');
@@ -42,10 +43,11 @@ class App extends Component {
     this.setState({ isLoggedIn: this.hasLoggedIn() });
   }
 
-  login(success) {
+  login(name, success) {
     if (success === true) {
       this.setState({ isLoggedIn: success });
       window.localStorage['loggedInTime'] = new Date().getTime();
+      window.localStorage['accountName'] = name;
     }
   }
 

@@ -6,7 +6,7 @@ module.exports = {
   addProjectToAccount: (account, project, tx) =>
     account.$relatedQuery('projects', tx).insert(project),
   findByAccount: (account, tx) =>
-    account.$relatedQuery('projects', tx).column('id', 'name', 'description'),
+    account.$relatedQuery('projects', tx).column('id', 'name', 'description', 'creator'),
   findByAccountAndId: (account, id, tx) => account.$relatedQuery('projects', tx).findOne({ id }),
   findById: (id, tx) => Project.query(tx).findById(id),
   updateProject: (project, id, tx) =>
