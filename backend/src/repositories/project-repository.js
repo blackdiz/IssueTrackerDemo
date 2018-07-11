@@ -8,9 +8,19 @@ module.exports = {
   findByAccount: (account, tx) =>
     account.$relatedQuery('projects', tx).column('id', 'name', 'description'),
   findByAccountAndId: (account, id, tx) => account.$relatedQuery('projects', tx).findOne({ id }),
-  findById: (projectId, tx) => Project.query(tx).findById(projectId),
-  updateProject: (project, projectId, tx) =>
+  findById: (id, tx) => Project.query(tx).findById(id),
+  updateProject: (project, id, tx) =>
     Project.query(tx)
       .update(project)
-      .where('id', projectId)
+      .where({ id }),
+  delete: async (account, id, tx) => {
+    await account
+      .$relatedQuery('projects', tx)
+      .unrelate()
+      .where({ id });
+    const deleteCount = await Project.query(tx)
+      .delete()
+      .where({ id });
+    return deleteCount;
+  }
 };

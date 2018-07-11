@@ -110,6 +110,25 @@ module.exports = {
       return null;
     }
   },
+  deleteProject: async (accountName, projectId) => {
+    let tx;
+    try {
+      tx = await transaction();
+      const account = await accountRepository.findByName(accountName, tx);
+      await issueRepository.deleteAllByProject(projectId, tx);
+      const deleteCount = await projectRepository.delete(account, projectId, tx);
+
+      await tx.commit();
+
+      return deleteCount;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      return 0;
+    }
+  },
   getAllIssues: async (projectId) => {
     let tx;
     try {
@@ -189,7 +208,7 @@ module.exports = {
     try {
       tx = await transaction();
 
-      const updateCount = await issueRepository.updateIssue(projectId, issueId, issue, tx);
+      const updateCount = await issueRepository.update(projectId, issueId, issue, tx);
 
       await tx.commit();
 
@@ -235,7 +254,7 @@ module.exports = {
     try {
       tx = await transaction();
 
-      const deleteCount = await issueRepository.deleteIssue(projectId, issueId, tx);
+      const deleteCount = await issueRepository.delete(projectId, issueId, tx);
 
       await tx.commit();
 

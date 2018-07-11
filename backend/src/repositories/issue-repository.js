@@ -13,5 +13,9 @@ module.exports = {
   delete: (projectId, id, tx) =>
     Issue.query(tx)
       .delete()
-      .where({ project_id: projectId, id })
+      .where({ project_id: projectId, id }),
+  deleteAllByProject: (projectId, tx) =>
+    Issue.query(tx)
+      .delete()
+      .where({ project_id: projectId })
 };

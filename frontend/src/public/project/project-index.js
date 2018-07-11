@@ -2,18 +2,22 @@
 
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
 import ProjectsTable from './projects-table';
 
 class ProjectIndex extends Component {
   constructor(props) {
     super(props);
+    this.handleDelete = this.handleDelete.bind(this);
     this.state = {
       projects: []
     };
   }
 
   componentDidMount() {
+    this.fetchProjects();
+  }
+
+  fetchProjects() {
     (async () => {
       const res = await fetch(API_URL + '/api/project', {
         method: 'GET',
@@ -26,6 +30,20 @@ class ProjectIndex extends Component {
         }
       }
     })();
+  }
+
+  handleDelete(projectId) {
+    if (confirm('確定刪除此專案嗎?')) {
+      (async () => {
+        const res = await fetch(API_URL + `/api/project/${projectId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        if (res.status === 204) {
+          this.fetchProjects();
+        }
+      })();
+    }
   }
 
   render() {
@@ -45,7 +63,7 @@ class ProjectIndex extends Component {
         </Row>
         <Row>
           <Col>
-            <ProjectsTable projects={this.state.projects} />
+            <ProjectsTable projects={this.state.projects} handleDelete={this.handleDelete} />
           </Col>
         </Row>
       </div>
