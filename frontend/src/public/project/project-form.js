@@ -7,8 +7,8 @@ export function handleProjectFormChange(e, project) {
   if (e.target.name === 'isPublic') {
     project['isPublic'] = e.target.checked;
   } else if (e.target.name === 'id') {
-    var alphanum = /^[a-z0-9]+$/i;
-    if (e.target.value.match(alphanum) !== null) {
+    var alphanum = /^[a-z0-9\w]+$/i;
+    if (e.target.value.match(alphanum) !== null || e.target.value === '') {
       project['id'] = e.target.value;
     }
   } else {
