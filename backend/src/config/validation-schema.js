@@ -15,7 +15,7 @@ module.exports = {
           name: Joi.string()
             .max(50)
             .required(),
-          description: Joi.string().required(),
+          description: Joi.string().allow(''),
           isPublic: Joi.boolean().required()
         })
     }
