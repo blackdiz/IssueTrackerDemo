@@ -111,7 +111,7 @@ module.exports = {
     let tx;
     try {
       tx = await transaction();
-      const project = await projectRepository.findById(projectId);
+      const project = await projectRepository.findById(projectId, tx);
       let issues = [];
       if (project) {
         issues = await issueRepository.findAllByProject(project, tx);
