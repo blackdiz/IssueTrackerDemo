@@ -35,8 +35,8 @@ class IssueIndex extends Component {
             建立新問題
           </Button>
         </div>
-        <div>
-          <IssuesTable issues={this.state.issues} />
+        <div className="mt-2">
+          <IssuesTable match={this.props.match} issues={this.state.issues} />
         </div>
       </div>
     );
