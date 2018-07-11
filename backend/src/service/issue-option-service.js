@@ -3,7 +3,7 @@
 const transaction = require('../utils/transaction');
 const tagRepository = require('../repositories/tag-repository');
 const statusRepository = require('../repositories/status-repository');
-const priorityRepository = require('../repositories/priorityRepository');
+const priorityRepository = require('../repositories/priority-repository');
 const logger = require('../config/logger');
 
 module.exports = {
