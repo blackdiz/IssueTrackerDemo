@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import ProjectForm, { handleProjectFormChange } from './project-form';
-import ProjectHeader from './project-header';
 
 class ProjectEditor extends Component {
   constructor(props) {

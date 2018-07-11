@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import ProjectIndex from './project-index';
 import NewProject from './new-project';
 import ProjectDetail from './project-detail';
-import IssueLayout from '../issue/issue-layout';
 
 const ProjectLayout = (props) => {
   return (
