@@ -4,7 +4,7 @@ const Issue = require('../model/issue');
 
 module.exports = {
   addIssueToProject: (project, issue, tx) => project.$relatedQuery('issues', tx).insert(issue),
-  findAllByProject: (project, tx) => project.$relatedQuery('issues', tx),
+  findAllByProject: (project, tx) => project.$relatedQuery('issues', tx).orderBy('id', 'asc'),
   findByProjectAndId: (project, id, tx) => project.$relatedQuery('issues', tx).findOne({ id }),
   updateIssue: (projectId, id, issue, tx) =>
     Issue.query(tx)
