@@ -73,7 +73,7 @@ primary key (id)
 --需求
 create table issue(
 id serial,
-project_id varchar(50) references project(id),
+project_id varchar(50) references project(id) not null,
 title varchar(100) not null,
 description text,
 status_id int not null references status(id),
