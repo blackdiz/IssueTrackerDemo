@@ -7,22 +7,27 @@ import { Link } from 'react-router-dom';
 const IssuesTable = (props) => {
   if (props.issues) {
     const issues = props.issues.map((issue) => {
+      const accountName = window.localStorage['accountName'];
       return (
         <tr key={issue.id}>
           <td>
             <Link to={`${props.match.url}/${issue.id}`}>#{issue.id}</Link>
           </td>
           <td>{issue.title}</td>
-          <td>
-            <Button
-              color="warning"
-              onClick={() => {
-                props.handleDelete(issue.id);
-              }}
-            >
-              X
-            </Button>
-          </td>
+          {accountName === issue.creator ? (
+            <td>
+              <Button
+                color="warning"
+                onClick={() => {
+                  props.handleDelete(issue.id);
+                }}
+              >
+                X
+              </Button>
+            </td>
+          ) : (
+            <td />
+          )}
         </tr>
       );
     });
