@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import IssueForm from './issue-form';
+import { Redirect } from 'react-router-dom';
 
 class IssueEditor extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class IssueEditor extends Component {
         assignedAccount: '',
         estimateWorkHour: 0,
         finishedPercent: 0
-      }
+      },
+      success: false
     };
   }
 
@@ -33,6 +35,11 @@ class IssueEditor extends Component {
       });
       if (res.status === 200) {
         const issue = await res.json();
+        Object.keys(issue).forEach((key) => {
+          if (issue[`${key}`] === null) {
+            issue[`${key}`] = '';
+          }
+        });
         this.setState({ issue: issue });
       }
     })();
@@ -47,16 +54,12 @@ class IssueEditor extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const newIssue = Object.assign({}, this.state.issue);
-    if (newIssue.startDate === '') {
-      newIssue.startDate = null;
-    }
-    if (newIssue.endDate === '') {
-      newIssue.endDate = null;
-    }
-    if (newIssue.assignedAccount === '') {
-      newIssue.assignedAccount = null;
-    }
-    const res = await fetch(API_URL + `/api${this.props.match.url}`, {
+    Object.keys(newIssue).forEach((key) => {
+      if (newIssue[`${key}`] === '') {
+        newIssue[`${key}`] = null;
+      }
+    });
+    await fetch(API_URL + `/api${this.props.match.url}`, {
       method: 'PUT',
       body: JSON.stringify({ issue: newIssue }),
       headers: {
@@ -67,17 +70,21 @@ class IssueEditor extends Component {
   }
 
   render() {
-    return (
-      <div className="mt-3">
-        <IssueForm
-          tilte="修改問題"
-          button="修改"
-          handleInputChange={this.handleInputChange}
-          handleSubmit={this.handleSubmit}
-          issue={this.state.issue}
-        />
-      </div>
-    );
+    if (this.state.success === true) {
+      return <Redirect to={`/project/${this.state.issue.projectId}/issue`} />;
+    } else {
+      return (
+        <div className="mt-3">
+          <IssueForm
+            tilte="修改問題"
+            button="修改"
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
+            issue={this.state.issue}
+          />
+        </div>
+      );
+    }
   }
 }
 

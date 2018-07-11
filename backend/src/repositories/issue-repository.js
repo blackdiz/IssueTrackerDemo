@@ -10,5 +10,4 @@ module.exports = {
     Issue.query(tx)
       .update(issue)
       .where({ project_id: projectId, id })
-      .debug()
 };

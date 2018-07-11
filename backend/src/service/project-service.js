@@ -17,6 +17,7 @@ module.exports = {
       const dbAccount = await accountRepository.findByName(account.name, tx);
       if (dbAccount) {
         await projectRepository.addProjectToAccount(dbAccount, newProject, tx);
+
         await tx.commit();
 
         return newProject;
@@ -93,7 +94,9 @@ module.exports = {
     try {
       tx = await transaction();
       const updateNum = await projectRepository.updateProject(newProject, projectId, tx);
+
       await tx.commit();
+
       if (updateNum === 0) {
         return null;
       }
@@ -132,16 +135,17 @@ module.exports = {
   },
   addIssueToProject: async (issue, accoutName) => {
     let tx;
+    let savedIssue = null;
     try {
       tx = await transaction();
       const newIssue = Object.assign({}, issue, { creator: `${accoutName}` });
       const project = await projectRepository.findById(newIssue.projectId, tx);
-      if (project === null) {
-        logger.error(`Project: ${newIssue.projectId} not exists`);
-        return null;
-      }
 
-      const savedIssue = await issueRepository.addIssueToProject(project, newIssue, tx);
+      if (project) {
+        savedIssue = await issueRepository.addIssueToProject(project, newIssue, tx);
+      } else {
+        logger.error(`Project: ${newIssue.projectId} not exists`);
+      }
 
       await tx.commit();
 
@@ -200,6 +204,30 @@ module.exports = {
       await tx.rollback();
 
       return null;
+    }
+  },
+  getAllAccounts: async (projectId) => {
+    let tx;
+    let accounts = [];
+    try {
+      tx = await transaction();
+
+      const project = await projectRepository.findById(projectId, tx);
+      if (project) {
+        accounts = await accountRepository.findAllByProject(project, tx);
+      } else {
+        logger.error(`Project: ${projectId} not exist`);
+      }
+
+      await tx.commit();
+
+      return accounts;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback;
+
+      return accounts;
     }
   }
 };

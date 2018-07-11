@@ -8,5 +8,6 @@ module.exports = {
   updateLoginTime: (name, tx) =>
     Account.query(tx)
       .patch({ loginTime: new Date().toISOString() })
-      .where('name', name)
+      .where('name', name),
+  findAllByProject: (project, tx) => project.$relatedQuery('accounts', tx).columns('name')
 };

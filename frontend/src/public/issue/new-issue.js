@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import IssueForm from './issue-form';
+import { Redirect } from 'react-router-dom';
 
 class NewIssue extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class NewIssue extends Component {
         assignedAccount: '',
         estimateWorkHour: 0,
         finishedPercent: 0
-      }
+      },
+      success: false
     };
   }
 
@@ -43,15 +45,11 @@ class NewIssue extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const newIssue = Object.assign({}, this.state.issue);
-    if (newIssue.startDate === '') {
-      newIssue.startDate = null;
-    }
-    if (newIssue.endDate === '') {
-      newIssue.endDate = null;
-    }
-    if (newIssue.assignedAccount === '') {
-      newIssue.assignedAccount = null;
-    }
+    Object.keys(issue).forEach((key) => {
+      if (issue[`${key}`] === null) {
+        issue[`${key}`] = '';
+      }
+    });
     const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}/issue`, {
       method: 'POST',
       body: JSON.stringify({ issue: newIssue }),
@@ -60,21 +58,28 @@ class NewIssue extends Component {
       },
       credentials: 'include'
     });
+    if (res.status === 201) {
+      this.setState({ success: true });
+    }
   }
 
   render() {
-    return (
-      <div className="mt-3">
-        <IssueForm
-          title="建立問題"
-          button="送出"
-          handleInputChange={this.handleInputChange}
-          handleSubmit={this.handleSubmit}
-          issue={this.state.issue}
-          handleInit={this.handleInit}
-        />
-      </div>
-    );
+    if (this.state.success === true) {
+      return <Redirect to={`/project/${this.state.issue.projectId}/issue`} />;
+    } else {
+      return (
+        <div className="mt-3">
+          <IssueForm
+            title="建立問題"
+            button="送出"
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
+            issue={this.state.issue}
+            handleInit={this.handleInit}
+          />
+        </div>
+      );
+    }
   }
 }
 

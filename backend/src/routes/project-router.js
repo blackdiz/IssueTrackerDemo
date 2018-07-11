@@ -120,4 +120,9 @@ router.put('/:id/issue/:issueId', validate(schema.issue), (req, res) => {
   })();
 });
 
+router.get('/:id/accounts', (req, res) => {
+  (async () => {
+    res.status(200).json(await projectService.getAllAccounts(req.params.id));
+  })();
+});
 module.exports = router;

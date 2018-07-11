@@ -54,6 +54,25 @@ async function fetchPriorities() {
   }
 }
 
+async function fetchAssignableAccounts(projectId) {
+  const res = await fetch(API_URL + `/api/project/${projectId}/accounts`, {
+    method: 'GET',
+    credentials: 'include'
+  });
+  if (res.status === 200) {
+    const accounts = await res.json();
+    return [<option key="" value="" />].concat(
+      accounts.map((account) => {
+        return (
+          <option key={account.name} value={account.name}>
+            {account.name}
+          </option>
+        );
+      })
+    );
+  }
+}
+
 function getFinishedPercent() {
   return Array.from(Array(11).keys(), (i) => i * 10).map((num) => {
     return (
@@ -71,6 +90,7 @@ class IssueForm extends Component {
       tags: [],
       status: [],
       priorities: [],
+      assignedAccounts: [],
       finishedPercent: getFinishedPercent()
     };
   }
@@ -80,11 +100,15 @@ class IssueForm extends Component {
       const tags = await fetchTags();
       const status = await fetchStatus();
       const priorities = await fetchPriorities();
+      const accounts = await fetchAssignableAccounts(this.props.issue.projectId);
       if (Array.isArray(tags)) {
         this.setState({ tags: tags });
       }
       if (Array.isArray(status)) {
         this.setState({ status: status });
+      }
+      if (Array.isArray(accounts)) {
+        this.setState({ assignedAccounts: accounts });
       }
       if (Array.isArray(priorities)) {
         this.setState({ priorities: priorities });
@@ -202,7 +226,15 @@ class IssueForm extends Component {
                   <Label for="assignedAccount">分派給</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="input" name="assignedAccount" id="assignedAccount" />
+                  <Input
+                    type="select"
+                    name="assignedAccount"
+                    id="assignedAccount"
+                    value={this.props.issue.assignedAccount}
+                    onChange={this.props.handleInputChange}
+                  >
+                    ${this.state.assignedAccounts}
+                  </Input>
                 </Col>
                 <Col sm="1">
                   <Label for="estimateWorkHour">預估工時</Label>
