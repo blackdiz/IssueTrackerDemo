@@ -60,10 +60,10 @@ app.use((req, res, next) => {
   }
 });
 
-app.use('/api/account', require('./routes/account-router'));
+app.use('/api/accounts', require('./routes/account-router'));
 app.use('/api/login', require('./routes/login-router'));
-app.use('/api/project', require('./routes/project-router'));
-app.use('/api/issue-option', require('./routes/issue-option-router'));
+app.use('/api/projects', require('./routes/project-router'));
+app.use('/api/issue-options', require('./routes/issue-option-router'));
 
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {

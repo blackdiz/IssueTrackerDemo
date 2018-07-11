@@ -11,7 +11,7 @@ const IssueLayout = (props) => {
     <Switch>
       <Route exact path={`${props.match.path}`} component={IssueIndex} />
       <Route exact path={`${props.match.path}/new`} component={NewIssue} />
-      <Route path={`${props.match.path}/:id`} component={IssueEditor} />
+      <Route path={`${props.match.path}/:issueId`} component={IssueEditor} />
     </Switch>
   );
 };

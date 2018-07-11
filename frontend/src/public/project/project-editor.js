@@ -30,7 +30,7 @@ class ProjectEditor extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const editedProject = Object.assign({}, this.state.project);
-    const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}`, {
+    const res = await fetch(API_URL + `/api/projects/${this.props.match.params.id}`, {
       method: 'PUT',
       body: JSON.stringify({ project: editedProject }),
       headers: {
@@ -47,7 +47,7 @@ class ProjectEditor extends Component {
 
   componentDidMount() {
     (async () => {
-      const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}`, {
+      const res = await fetch(API_URL + `/api/projects/${this.props.match.params.id}`, {
         method: 'GET',
         credentials: 'include'
       });

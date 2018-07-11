@@ -29,10 +29,14 @@ class IssueEditor extends Component {
 
   componentDidMount() {
     (async () => {
-      const res = await fetch(API_URL + `/api${this.props.match.url}`, {
-        method: 'GET',
-        credentials: 'include'
-      });
+      const res = await fetch(
+        API_URL +
+          `/api/projects/${this.props.match.params.id}/issues/${this.props.match.params.issueId}`,
+        {
+          method: 'GET',
+          credentials: 'include'
+        }
+      );
       if (res.status === 200) {
         const issue = await res.json();
         Object.keys(issue).forEach((key) => {
@@ -55,18 +59,27 @@ class IssueEditor extends Component {
     e.preventDefault();
     const newIssue = Object.assign({}, this.state.issue);
     Object.keys(newIssue).forEach((key) => {
-      if (newIssue[`${key}`] === '') {
-        newIssue[`${key}`] = null;
+      if (key !== 'description') {
+        if (newIssue[`${key}`] === '') {
+          newIssue[`${key}`] = null;
+        }
       }
     });
-    await fetch(API_URL + `/api${this.props.match.url}`, {
-      method: 'PUT',
-      body: JSON.stringify({ issue: newIssue }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
-    });
+    const res = await fetch(
+      API_URL +
+        `/api/projects/${this.props.match.params.id}/issues/${this.props.match.params.issueId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ issue: newIssue }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      }
+    );
+    if (res.status === 200) {
+      this.setState({ success: true });
+    }
   }
 
   render() {

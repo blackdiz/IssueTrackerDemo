@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, FormGroup, Input, Button, Label } from 'reactstrap';
 
 async function fetchTags() {
-  const res = await fetch(API_URL + '/api/issue-option/tag', {
+  const res = await fetch(API_URL + '/api/issue-options/tags', {
     method: 'GET',
     credentials: 'include'
   });
@@ -21,7 +21,7 @@ async function fetchTags() {
 }
 
 async function fetchStatus() {
-  const res = await fetch(API_URL + '/api/issue-option/status', {
+  const res = await fetch(API_URL + '/api/issue-options/status', {
     method: 'GET',
     credentials: 'include'
   });
@@ -38,7 +38,7 @@ async function fetchStatus() {
 }
 
 async function fetchPriorities() {
-  const res = await fetch(API_URL + '/api/issue-option/priority', {
+  const res = await fetch(API_URL + '/api/issue-options/priorities', {
     method: 'GET',
     credentials: 'include'
   });
@@ -55,7 +55,7 @@ async function fetchPriorities() {
 }
 
 async function fetchAssignableAccounts(projectId) {
-  const res = await fetch(API_URL + `/api/project/${projectId}/accounts`, {
+  const res = await fetch(API_URL + `/api/projects/${projectId}/accounts`, {
     method: 'GET',
     credentials: 'include'
   });

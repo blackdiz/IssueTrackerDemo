@@ -45,12 +45,14 @@ class NewIssue extends Component {
   async handleSubmit(e) {
     e.preventDefault();
     const newIssue = Object.assign({}, this.state.issue);
-    Object.keys(issue).forEach((key) => {
-      if (issue[`${key}`] === null) {
-        issue[`${key}`] = '';
+    Object.keys(newIssue).forEach((key) => {
+      if (key !== 'description') {
+        if (newIssue[`${key}`] === '') {
+          newIssue[`${key}`] = null;
+        }
       }
     });
-    const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}/issue`, {
+    const res = await fetch(API_URL + `/api/projects/${this.props.match.params.id}/issues`, {
       method: 'POST',
       body: JSON.stringify({ issue: newIssue }),
       headers: {

@@ -34,7 +34,7 @@ class NewProject extends Component {
     const project = Object.assign({}, this.state.project);
     let createSuccess = false;
     try {
-      const res = await fetch(API_URL + '/api/project', {
+      const res = await fetch(API_URL + '/api/projects', {
         body: JSON.stringify({ project: project }),
         headers: {
           'Content-Type': 'application/json'

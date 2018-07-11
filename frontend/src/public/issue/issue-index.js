@@ -20,7 +20,7 @@ class IssueIndex extends Component {
 
   fetchIssues() {
     (async () => {
-      const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}/issue`, {
+      const res = await fetch(API_URL + `/api/projects/${this.props.match.params.id}/issues`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -37,7 +37,7 @@ class IssueIndex extends Component {
     if (confirm('確定刪除此問題嗎?')) {
       (async () => {
         const res = await fetch(
-          API_URL + `/api/project/${this.props.match.params.id}/issue/${issueId}`,
+          API_URL + `/api/projects/${this.props.match.params.id}/issues/${issueId}`,
           {
             method: 'DELETE',
             credentials: 'include'

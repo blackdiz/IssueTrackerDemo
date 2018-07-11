@@ -85,13 +85,13 @@ router.delete('/:id', (req, res) => {
   })();
 });
 
-router.get('/:id/issue', (req, res) => {
+router.get('/:id/issues', (req, res) => {
   (async () => {
     res.status(200).json(await projectService.getAllIssues(req.params.id));
   })();
 });
 
-router.post('/:id/issue', validate(schema.issue), (req, res) => {
+router.post('/:id/issues', validate(schema.issue), (req, res) => {
   (async () => {
     const newProject = await projectService.addIssueToProject(
       req.body.issue,
@@ -105,7 +105,7 @@ router.post('/:id/issue', validate(schema.issue), (req, res) => {
   })();
 });
 
-router.get('/:id/issue/:issueId', (req, res) => {
+router.get('/:id/issues/:issueId', (req, res) => {
   (async () => {
     const issue = await projectService.getIssue(req.params.id, req.params.issueId);
     if (issue !== null) {
@@ -116,7 +116,7 @@ router.get('/:id/issue/:issueId', (req, res) => {
   })();
 });
 
-router.put('/:id/issue/:issueId', validate(schema.issue), (req, res) => {
+router.put('/:id/issues/:issueId', validate(schema.issue), (req, res) => {
   (async () => {
     const issue = await projectService.updateIssue(
       req.params.id,
@@ -131,7 +131,7 @@ router.put('/:id/issue/:issueId', validate(schema.issue), (req, res) => {
   })();
 });
 
-router.delete('/:id/issue/:issueId', (req, res) => {
+router.delete('/:id/issues/:issueId', (req, res) => {
   (async () => {
     const deleteCount = await projectService.deleteIssue(req.params.id, req.params.issueId);
     if (deleteCount === 1) {

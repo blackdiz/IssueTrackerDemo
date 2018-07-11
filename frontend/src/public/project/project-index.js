@@ -20,7 +20,7 @@ class ProjectIndex extends Component {
 
   fetchProjects() {
     (async () => {
-      const res = await fetch(API_URL + '/api/project', {
+      const res = await fetch(API_URL + '/api/projects', {
         method: 'GET',
         credentials: 'include'
       });
@@ -36,7 +36,7 @@ class ProjectIndex extends Component {
   handleDelete(projectId) {
     if (confirm('確定刪除此專案嗎?')) {
       (async () => {
-        const res = await fetch(API_URL + `/api/project/${projectId}`, {
+        const res = await fetch(API_URL + `/api/projects/${projectId}`, {
           method: 'DELETE',
           credentials: 'include'
         });
