@@ -3,7 +3,7 @@
 const Project = require('../model/project');
 
 module.exports = {
-  saveProjectOfAccount: (account, project, tx) =>
+  addProjectToAccount: (account, project, tx) =>
     account.$relatedQuery('projects', tx).insert(project),
   findByAccount: (account, tx) =>
     account.$relatedQuery('projects', tx).column('id', 'name', 'description'),
