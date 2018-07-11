@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import IssuesTable from './issues-table';
 import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class IssueIndex extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class IssueIndex extends Component {
     return (
       <div className="mt-2">
         <div className="d-flex justify-content-sm-end">
-          <Button size="sm" color="danger" tag="a" href={`${this.props.match.url}/new`}>
+          <Button size="sm" color="danger" tag={Link} to={`${this.props.match.url}/new`}>
             建立新問題
           </Button>
         </div>
