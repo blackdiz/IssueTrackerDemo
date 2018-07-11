@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import ProjectsTable from './projects-table';
+import { Link } from 'react-router-dom';
 
 class ProjectIndex extends Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class ProjectIndex extends Component {
       <div>
         <Row className="justify-content-sm-end mt-3">
           <Col sm={1}>
-            <Button color="danger" size="sm" tag="a" href={`${this.props.match.path}/new`}>
+            <Button color="danger" size="sm" tag={Link} to={`${this.props.match.path}/new`}>
               建立新專案
             </Button>
           </Col>
