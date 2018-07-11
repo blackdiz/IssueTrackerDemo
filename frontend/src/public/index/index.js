@@ -27,8 +27,8 @@ class App extends Component {
     window.localStorage.removeItem('loggedInTime');
     window.localStorage.removeItem('accountName');
     this.setState({ isLoggedIn: false });
-    const history = createHistory();
-    history.push('/');
+    // const history = createHistory();
+    // history.push('/');
   }
 
   hasLoggedIn() {
