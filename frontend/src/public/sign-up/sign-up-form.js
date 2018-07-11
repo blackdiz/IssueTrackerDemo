@@ -26,7 +26,7 @@ class SignUpForm extends Component {
     this.setState({ submitEnable: false, signUpMessage: '' });
     e.preventDefault();
     try {
-      const res = await fetch(API_URL + '/api/account', {
+      const res = await fetch(API_URL + '/api/accounts', {
         body: JSON.stringify({
           accountName: this.state.accountName,
           password: this.state.password
