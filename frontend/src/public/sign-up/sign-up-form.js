@@ -11,7 +11,7 @@ class SignUpForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      accountname: '',
+      accountName: '',
       password: '',
       submitEnable: true,
       signUpMessage: ''
@@ -28,7 +28,7 @@ class SignUpForm extends Component {
     try {
       const res = await fetch(API_URL + '/api/account', {
         body: JSON.stringify({
-          accountname: this.state.accountname,
+          accountName: this.state.accountName,
           password: this.state.password
         }),
         headers: {
@@ -62,11 +62,11 @@ class SignUpForm extends Component {
         <div className="bg-light p-5">
           <Form onSubmit={this.handleSubmit}>
             <FormGroup row>
-              <Label for="accountname" sm={4} className="col-form-label">
+              <Label for="accountName" sm={4} className="col-form-label">
                 使用者名稱
               </Label>
               <Col sm={8}>
-                <AccountNameInput value={this.state.accountname} handleChange={this.handleChange} />
+                <AccountNameInput value={this.state.accountName} handleChange={this.handleChange} />
               </Col>
             </FormGroup>
             <FormGroup row>

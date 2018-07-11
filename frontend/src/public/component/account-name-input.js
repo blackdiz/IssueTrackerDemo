@@ -8,11 +8,11 @@ export default function AccountNameInput(props) {
     <div>
       <Input
         type="text"
-        name="accountname"
-        id="accountname"
+        name="accountName"
+        id="accountName"
         maxLength={20}
         required
-        value={props.accountname}
+        value={props.accountName}
         onChange={props.handleChange}
         className="form-control"
       />

@@ -7,7 +7,7 @@ const logger = require('../config/logger');
 router.post(
   '/',
   (req, res, next) => {
-    if (!req.body.accountname) {
+    if (!req.body.accountName) {
       res.status(400).json({ errorMessage: '請輸入使用者名稱' });
     } else if (!req.body.password) {
       res.status(400).json({ errorMessage: '請輸入密碼' });
@@ -18,7 +18,7 @@ router.post(
   (req, res) => {
     (async () => {
       try {
-        const account = await authService.authenticate(req.body.accountname, req.body.password);
+        const account = await authService.authenticate(req.body.accountName, req.body.password);
         if (account) {
           req.session.account = account;
           res.status(200).end();
