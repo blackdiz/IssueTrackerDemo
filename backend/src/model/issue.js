@@ -45,9 +45,10 @@ class Issue extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['title', 'statusId', 'priorityId', 'tagId'],
+      required: ['projectId', 'title', 'statusId', 'priorityId', 'tagId', 'creator'],
 
       properties: {
+        projectId: { type: 'string', maxLength: 50 },
         title: { type: 'string', maxLength: 100 },
         description: { type: 'string' },
         statusId: { type: 'integer' },
@@ -55,6 +56,8 @@ class Issue extends BaseModel {
         tagId: { type: 'integer' },
         assignAccount: { type: 'string', maxLength: 20 },
         estimateWorkHour: { type: 'integer' },
+        startDate: { type: 'string' },
+        endDate: { type: 'string' },
         finishPercent: { type: 'integer', minimum: 0, maximum: 100 },
         creator: { type: 'string', maxLength: 20 }
       }
