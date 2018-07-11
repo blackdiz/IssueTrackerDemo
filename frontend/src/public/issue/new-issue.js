@@ -67,9 +67,21 @@ function getFinishedPercent() {
 class NewIssue extends Component {
   constructor(props) {
     super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       issue: {
-        title: ''
+        projectId: `${this.props.match.params.id}`,
+        tagId: '',
+        title: '',
+        description: '',
+        statusId: '',
+        startDate: '',
+        endDate: '',
+        priorityId: '',
+        assignedAccount: '',
+        estimateWorkHour: 0,
+        finishedPercent: 0
       },
       tags: [],
       status: [],
@@ -83,16 +95,49 @@ class NewIssue extends Component {
       const tags = await fetchTags();
       const status = await fetchStatus();
       const priorities = await fetchPriorities();
+      const newIssue = Object.assign({}, this.state.issue);
       if (Array.isArray(tags)) {
         this.setState({ tags: tags });
+        newIssue.tagId = tags[0].key;
       }
       if (Array.isArray(status)) {
         this.setState({ status: status });
+        newIssue.statusId = status[0].key;
       }
       if (Array.isArray(priorities)) {
         this.setState({ priorities: priorities });
+        newIssue.priorityId = priorities[0].key;
       }
+      this.setState({ issue: newIssue });
     })();
+  }
+
+  handleInputChange(e) {
+    const newIssue = Object.assign({}, this.state.issue);
+    newIssue[`${e.target.name}`] = e.target.value;
+    this.setState({ issue: newIssue });
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const newIssue = Object.assign({}, this.state.issue);
+    if (newIssue.startDate === '') {
+      newIssue.startDate = null;
+    }
+    if (newIssue.endDate === '') {
+      newIssue.endDate = null;
+    }
+    if (newIssue.assignedAccount === '') {
+      newIssue.assignedAccount = null;
+    }
+    const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}/issue`, {
+      method: 'POST',
+      body: JSON.stringify({ issue: newIssue }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
   }
 
   render() {
@@ -105,13 +150,20 @@ class NewIssue extends Component {
         </Row>
         <Row>
           <Col sm={{ size: 10, offset: 1 }} className="bg-light">
-            <Form className="mt-3">
+            <Form className="mt-3 mb-3" onSubmit={this.handleSubmit}>
               <FormGroup row>
                 <Col sm="1">
                   <Label for="tagId">追蹤標籤</Label>
                 </Col>
                 <Col sm="11">
-                  <Input type="select" name="tagId" id="tagId" required>
+                  <Input
+                    type="select"
+                    name="tagId"
+                    id="tagId"
+                    required
+                    value={this.state.issue.tagId}
+                    onChange={this.handleInputChange}
+                  >
                     {this.state.tags}
                   </Input>
                 </Col>
@@ -128,6 +180,7 @@ class NewIssue extends Component {
                     maxLength="100"
                     required
                     value={this.state.issue.title}
+                    onChange={this.handleInputChange}
                   />
                 </Col>
               </FormGroup>
@@ -136,7 +189,13 @@ class NewIssue extends Component {
                   <Label for="description">簡述</Label>
                 </Col>
                 <Col sm="11">
-                  <Input type="textarea" name="description" id="description" />
+                  <Input
+                    type="textarea"
+                    name="description"
+                    id="description"
+                    value={this.state.issue.description}
+                    onChange={this.handleInputChange}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -144,7 +203,13 @@ class NewIssue extends Component {
                   <Label for="statusId">狀態</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="select" name="statusId" id="statusId">
+                  <Input
+                    type="select"
+                    name="statusId"
+                    id="statusId"
+                    value={this.state.issue.statusId}
+                    onChange={this.handleInputChange}
+                  >
                     {this.state.status}
                   </Input>
                 </Col>
@@ -160,7 +225,13 @@ class NewIssue extends Component {
                   <Label for="statusId">優先權</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="select" name="priorityId" id="priorityId">
+                  <Input
+                    type="select"
+                    name="priorityId"
+                    id="priorityId"
+                    value={this.state.issue.priorityId}
+                    onChange={this.handleInputChange}
+                  >
                     {this.state.priorities}
                   </Input>
                 </Col>
@@ -182,7 +253,13 @@ class NewIssue extends Component {
                   <Label for="estimateWorkHour">預估工時</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="input" name="estimateWorkHour" id="estimateWorkHour" />
+                  <Input
+                    type="input"
+                    name="estimateWorkHour"
+                    id="estimateWorkHour"
+                    value={this.state.issue.estimateWorkHour}
+                    onChange={this.handleInputChange}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -190,11 +267,20 @@ class NewIssue extends Component {
                   <Label for="finishedPercent">完成百分比</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="select" name="finishedPercent" id="finishedPercent">
+                  <Input
+                    type="select"
+                    name="finishedPercent"
+                    id="finishedPercent"
+                    value={this.state.issue.finishedPercent}
+                    onChange={this.handleInputChange}
+                  >
                     {this.state.finishedPercent}
                   </Input>
                 </Col>
               </FormGroup>
+              <Button type="submit" color="primary">
+                建立
+              </Button>
             </Form>
           </Col>
         </Row>

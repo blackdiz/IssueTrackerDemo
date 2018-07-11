@@ -32,14 +32,16 @@ module.exports = {
           title: Joi.string()
             .max(100)
             .required(),
-          description: Joi.string(),
+          description: Joi.string().allow(''),
           statusId: Joi.number().required(),
-          priorityId: Joi.number(),
-          tagId: Joi.number(),
-          assignedAccount: Joi.string().max(20),
-          estimateWorkHour: Joi.number(),
-          startDate: Joi.string(),
-          endDate: Joi.string(),
+          priorityId: Joi.number().required(),
+          tagId: Joi.number().required(),
+          assignedAccount: Joi.string()
+            .allow(null)
+            .max(20),
+          estimateWorkHour: Joi.number().min(0),
+          startDate: Joi.string().allow(null),
+          endDate: Joi.string().allow(null),
           finishedPercent: Joi.number().max(100)
         })
     }

@@ -54,10 +54,10 @@ class Issue extends BaseModel {
         statusId: { type: 'integer' },
         priorityId: { type: 'integer' },
         tagId: { type: 'integer' },
-        assignAccount: { type: 'string', maxLength: 20 },
+        assignAccount: { type: ['string', 'null'], maxLength: 20 },
         estimateWorkHour: { type: 'integer' },
-        startDate: { type: 'string' },
-        endDate: { type: 'string' },
+        startDate: { type: ['string', 'null'] },
+        endDate: { type: ['string', 'null'] },
         finishPercent: { type: 'integer', minimum: 0, maximum: 100 },
         creator: { type: 'string', maxLength: 20 }
       }
