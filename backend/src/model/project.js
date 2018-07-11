@@ -47,6 +47,7 @@ class Project extends BaseModel {
       properties: {
         id: { type: 'string', maxLength: 50 },
         name: { type: 'string', maxLength: 50 },
+        description: { type: 'string' },
         creator: { type: 'creator', maxLength: 20 },
         isPublic: { type: 'boolean' }
       }
