@@ -35,7 +35,7 @@ module.exports = {
       throw err;
     }
   },
-  getProjects: async (accountName) => {
+  getAllProjects: async (accountName) => {
     let tx;
     try {
       tx = await transaction();
@@ -107,7 +107,7 @@ module.exports = {
       return null;
     }
   },
-  getIssuesOfProject: async (projectId) => {
+  getAllIssues: async (projectId) => {
     let tx;
     try {
       tx = await transaction();
@@ -146,6 +146,54 @@ module.exports = {
       await tx.commit();
 
       return savedIssue;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      return null;
+    }
+  },
+  getIssue: async (projectId, issueId) => {
+    let tx;
+    try {
+      tx = await transaction();
+      const project = await projectRepository.findById(projectId, tx);
+      if (project === null) {
+        logger.error(`Project: ${projectId} not exists`);
+        return null;
+      }
+
+      const issue = await issueRepository.findByProjectAndId(project, issueId, tx);
+      if (issue === null) {
+        logger.error(`Issue: ${issueId} not exists`);
+      }
+
+      await tx.commit();
+
+      return issue;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      return null;
+    }
+  },
+  updateIssue: async (projectId, issueId, issue) => {
+    let tx;
+    try {
+      tx = await transaction();
+
+      const updateCount = await issueRepository.updateIssue(projectId, issueId, issue, tx);
+
+      await tx.commit();
+
+      if (updateCount === 0) {
+        return null;
+      }
+
+      return issue;
     } catch (err) {
       logger.error(err);
 

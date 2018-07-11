@@ -9,7 +9,7 @@ const logger = require('../config/logger');
 router.get('/', (req, res) => {
   (async () => {
     try {
-      const projects = await projectService.getProjects(req.session.account.name);
+      const projects = await projectService.getAllProjects(req.session.account.name);
       res.status(200).json(projects);
     } catch (err) {
       if (err.name === 'noAccount') {
@@ -76,7 +76,7 @@ router.put('/:id', validate(schema.project), (req, res) => {
 
 router.get('/:id/issue', (req, res) => {
   (async () => {
-    res.status(200).json(await projectService.getIssuesOfProject(req.params.id));
+    res.status(200).json(await projectService.getAllIssues(req.params.id));
   })();
 });
 
@@ -88,6 +88,32 @@ router.post('/:id/issue', validate(schema.issue), (req, res) => {
     );
     if (newProject !== null) {
       res.status(201).json(newProject);
+    } else {
+      res.status(400).end();
+    }
+  })();
+});
+
+router.get('/:id/issue/:issueId', (req, res) => {
+  (async () => {
+    const issue = await projectService.getIssue(req.params.id, req.params.issueId);
+    if (issue !== null) {
+      res.status(200).json(issue);
+    } else {
+      res.status(404).end();
+    }
+  })();
+});
+
+router.put('/:id/issue/:issueId', validate(schema.issue), (req, res) => {
+  (async () => {
+    const issue = await projectService.updateIssue(
+      req.params.id,
+      req.params.issueId,
+      req.body.issue
+    );
+    if (issue !== null) {
+      res.status(200).json(issue);
     } else {
       res.status(400).end();
     }
