@@ -120,6 +120,17 @@ router.put('/:id/issue/:issueId', validate(schema.issue), (req, res) => {
   })();
 });
 
+router.delete('/:id/issue/:issueId', (req, res) => {
+  (async () => {
+    const deleteCount = await projectService.deleteIssue(req.params.id, req.params.issueId);
+    if (deleteCount === 1) {
+      res.status(204).end();
+    } else {
+      res.status(400).end();
+    }
+  })();
+});
+
 router.get('/:id/accounts', (req, res) => {
   (async () => {
     res.status(200).json(await projectService.getAllAccounts(req.params.id));

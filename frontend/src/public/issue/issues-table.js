@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const IssuesTable = (props) => {
@@ -13,6 +13,16 @@ const IssuesTable = (props) => {
             <Link to={`${props.match.url}/${issue.id}`}>#{issue.id}</Link>
           </td>
           <td>{issue.title}</td>
+          <td>
+            <Button
+              color="warning"
+              onClick={() => {
+                props.handleDelete(issue.id);
+              }}
+            >
+              X
+            </Button>
+          </td>
         </tr>
       );
     });
@@ -22,6 +32,7 @@ const IssuesTable = (props) => {
           <tr>
             <th scope="col">編號</th>
             <th scope="col">標題</th>
+            <th scope="col">刪除</th>
           </tr>
         </thead>
         <tbody>{issues}</tbody>

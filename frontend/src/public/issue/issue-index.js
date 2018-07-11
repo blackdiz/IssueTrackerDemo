@@ -8,12 +8,17 @@ import { Link } from 'react-router-dom';
 class IssueIndex extends Component {
   constructor(props) {
     super(props);
+    this.handleDelete = this.handleDelete.bind(this);
     this.state = {
       issues: []
     };
   }
 
   componentDidMount() {
+    this.fetchIssues();
+  }
+
+  fetchIssues() {
     (async () => {
       const res = await fetch(API_URL + `/api/project/${this.props.match.params.id}/issue`, {
         method: 'GET',
@@ -28,6 +33,23 @@ class IssueIndex extends Component {
     })();
   }
 
+  handleDelete(issueId) {
+    if (confirm('確定刪除此問題嗎?')) {
+      (async () => {
+        const res = await fetch(
+          API_URL + `/api/project/${this.props.match.params.id}/issue/${issueId}`,
+          {
+            method: 'DELETE',
+            credentials: 'include'
+          }
+        );
+        if (res.status === 204) {
+          this.fetchIssues();
+        }
+      })();
+    }
+  }
+
   render() {
     return (
       <div className="mt-2">
@@ -37,7 +59,11 @@ class IssueIndex extends Component {
           </Button>
         </div>
         <div className="mt-2">
-          <IssuesTable match={this.props.match} issues={this.state.issues} />
+          <IssuesTable
+            match={this.props.match}
+            issues={this.state.issues}
+            handleDelete={this.handleDelete}
+          />
         </div>
       </div>
     );

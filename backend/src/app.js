@@ -49,7 +49,11 @@ app.use((req, res, next) => {
 
 // 若非GET則只接受application/json的request強制CORS的prefight，避免CORS
 app.use((req, res, next) => {
-  if (req.method === 'GET' || (req.method !== 'GET' && req.is('application/json'))) {
+  if (
+    req.method === 'GET' ||
+    req.method === 'DELETE' ||
+    (req.method !== 'GET' && req.is('application/json'))
+  ) {
     next();
   } else {
     res.status(406).end();

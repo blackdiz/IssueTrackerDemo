@@ -229,5 +229,23 @@ module.exports = {
 
       return accounts;
     }
+  },
+  deleteIssue: async (projectId, issueId) => {
+    let tx;
+    try {
+      tx = await transaction();
+
+      const deleteCount = await issueRepository.deleteIssue(projectId, issueId, tx);
+
+      await tx.commit();
+
+      return deleteCount;
+    } catch (err) {
+      logger.error(err);
+
+      await tx.rollback();
+
+      return 0;
+    }
   }
 };

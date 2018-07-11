@@ -9,5 +9,10 @@ module.exports = {
   updateIssue: (projectId, id, issue, tx) =>
     Issue.query(tx)
       .update(issue)
+      .where({ project_id: projectId, id }),
+  deleteIssue: (projectId, id, tx) =>
+    Issue.query(tx)
+      .delete()
       .where({ project_id: projectId, id })
+      .debug()
 };
