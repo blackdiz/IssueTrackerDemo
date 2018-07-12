@@ -74,22 +74,6 @@ const ProjectForm = (props) => {
                 />
               </Col>
             </FormGroup>
-            <FormGroup row>
-              <Col sm={2}>
-                <Label for="isPublic">是否公開</Label>
-              </Col>
-              <Col sm={10}>
-                <FormGroup check>
-                  <Input
-                    type="checkbox"
-                    name="isPublic"
-                    id="isPublic"
-                    checked={props.project.isPublic}
-                    onChange={props.handleChange}
-                  />
-                </FormGroup>
-              </Col>
-            </FormGroup>
             <Button color="primary" type="submit" disabled={!props.submitEnable}>
               {props.button}
             </Button>
