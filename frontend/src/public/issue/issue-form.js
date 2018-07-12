@@ -2,6 +2,9 @@
 
 import React, { Component } from 'react';
 import { Row, Col, Form, FormGroup, Input, Button, Label } from 'reactstrap';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 async function fetchTags() {
   const res = await fetch(API_URL + '/api/issue-options/tags', {
@@ -196,7 +199,16 @@ class IssueForm extends Component {
                   <Label for="startDate">開始日期</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="input" name="startDate" id="startDate" />
+                  <DatePicker
+                    locale="zh-tw"
+                    dateFormat="YYYY-MM-DD"
+                    selected={this.props.issue.startDate}
+                    onChange={this.props.handleChangeStart}
+                    isClearable={true}
+                    selectsStart
+                    startDate={this.props.issue.startDate}
+                    endDate={this.props.issue.endDate}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -218,7 +230,16 @@ class IssueForm extends Component {
                   <Label for="endDate">結束日期</Label>
                 </Col>
                 <Col sm="5">
-                  <Input type="input" name="endDate" id="endDate" />
+                  <DatePicker
+                    locale="zh-tw"
+                    dateFormat="YYYY-MM-DD"
+                    selected={this.props.issue.endDate}
+                    onChange={this.props.handleChangeEnd}
+                    isClearable={true}
+                    selectsEnd
+                    startDate={this.props.issue.startDate}
+                    endDate={this.props.issue.endDate}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup row>

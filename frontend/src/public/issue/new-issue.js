@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import IssueForm from './issue-form';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment-timezone';
 
 class NewIssue extends Component {
   constructor(props) {
@@ -10,6 +11,8 @@ class NewIssue extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInit = this.handleInit.bind(this);
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
     this.state = {
       issue: {
         projectId: `${this.props.match.params.id}`,
@@ -17,8 +20,8 @@ class NewIssue extends Component {
         title: '',
         description: '',
         statusId: 0,
-        startDate: '',
-        endDate: '',
+        startDate: null,
+        endDate: null,
         priorityId: 0,
         assignedAccount: '',
         estimateWorkHour: 0,
@@ -42,6 +45,30 @@ class NewIssue extends Component {
     this.setState({ issue: newIssue });
   }
 
+  handleChangeStart(startDate) {
+    let endDate = this.state.issue.endDate;
+    if (startDate !== null && startDate.isAfter(endDate)) {
+      endDate = null;
+    }
+    const newIssue = Object.assign({}, this.state.issue, {
+      startDate: startDate,
+      endDate: endDate
+    });
+    this.setState({
+      issue: newIssue
+    });
+  }
+
+  handleChangeEnd(endDate) {
+    if (endDate !== null && endDate.isBefore(this.state.issue.startDate)) {
+      endDate = this.state.issue.startDate;
+    }
+    const newIssue = Object.assign({}, this.state.issue, { endDate: endDate });
+    this.setState({
+      issue: newIssue
+    });
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
     const newIssue = Object.assign({}, this.state.issue);
@@ -52,6 +79,10 @@ class NewIssue extends Component {
         }
       }
     });
+    newIssue.startDate =
+      newIssue.startDate === null ? null : moment(newIssue.startDate).format('YYYY-MM-DD');
+    newIssue.endDate =
+      newIssue.endDate === null ? null : moment(newIssue.endDate).format('YYYY-MM-DD');
     const res = await fetch(API_URL + `/api/projects/${this.props.match.params.id}/issues`, {
       method: 'POST',
       body: JSON.stringify({ issue: newIssue }),
@@ -76,6 +107,8 @@ class NewIssue extends Component {
             button="送出"
             handleInputChange={this.handleInputChange}
             handleSubmit={this.handleSubmit}
+            handleChangeStart={this.handleChangeStart}
+            handleChangeEnd={this.handleChangeEnd}
             issue={this.state.issue}
             handleInit={this.handleInit}
           />

@@ -3,12 +3,15 @@
 import React, { Component } from 'react';
 import IssueForm from './issue-form';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment-timezone';
 
 class IssueEditor extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
     this.state = {
       issue: {
         projectId: `${this.props.match.params.id}`,
@@ -16,8 +19,8 @@ class IssueEditor extends Component {
         title: '',
         description: '',
         statusId: '',
-        startDate: '',
-        endDate: '',
+        startDate: null,
+        endDate: null,
         priorityId: '',
         assignedAccount: '',
         estimateWorkHour: 0,
@@ -40,10 +43,12 @@ class IssueEditor extends Component {
       if (res.status === 200) {
         const issue = await res.json();
         Object.keys(issue).forEach((key) => {
-          if (issue[`${key}`] === null) {
+          if (issue[`${key}`] === null && (key !== 'startDate' && key !== 'endDate')) {
             issue[`${key}`] = '';
           }
         });
+        issue.startDate = issue.startDate === null ? null : moment(issue.startDate);
+        issue.endDate = issue.endDate === null ? null : moment(issue.endDate);
         this.setState({ issue: issue });
       }
     })();
@@ -53,6 +58,32 @@ class IssueEditor extends Component {
     const newIssue = Object.assign({}, this.state.issue);
     newIssue[`${e.target.name}`] = e.target.value;
     this.setState({ issue: newIssue });
+  }
+
+  handleChangeStart(startDate) {
+    let endDate = this.state.issue.endDate;
+    if (startDate !== null && startDate.isAfter(endDate)) {
+      endDate = null;
+    }
+    const newIssue = Object.assign({}, this.state.issue, {
+      startDate: startDate,
+      endDate: endDate
+    });
+    console.log(JSON.stringify(newIssue));
+    this.setState({
+      issue: newIssue
+    });
+  }
+
+  handleChangeEnd(endDate) {
+    if (endDate !== null && endDate.isBefore(this.state.issue.startDate)) {
+      endDate = this.state.issue.startDate;
+    }
+    const newIssue = Object.assign({}, this.state.issue, { endDate: endDate });
+    console.log(JSON.stringify(newIssue));
+    this.setState({
+      issue: newIssue
+    });
   }
 
   async handleSubmit(e) {
@@ -65,6 +96,11 @@ class IssueEditor extends Component {
         }
       }
     });
+    newIssue.startDate =
+      newIssue.startDate === null ? null : moment(newIssue.startDate).format('YYYY-MM-DD');
+    newIssue.endDate =
+      newIssue.endDate === null ? null : moment(newIssue.endDate).format('YYYY-MM-DD');
+    console.log(JSON.stringify(newIssue));
     const res = await fetch(
       API_URL +
         `/api/projects/${this.props.match.params.id}/issues/${this.props.match.params.issueId}`,
@@ -93,6 +129,8 @@ class IssueEditor extends Component {
             button="修改"
             handleInputChange={this.handleInputChange}
             handleSubmit={this.handleSubmit}
+            handleChangeStart={this.handleChangeStart}
+            handleChangeEnd={this.handleChangeEnd}
             issue={this.state.issue}
           />
         </div>
