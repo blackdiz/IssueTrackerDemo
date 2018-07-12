@@ -244,20 +244,6 @@ class IssueForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col sm="1">
-                  <Label for="assignedAccount">分派給</Label>
-                </Col>
-                <Col sm="5">
-                  <Input
-                    type="select"
-                    name="assignedAccount"
-                    id="assignedAccount"
-                    value={this.props.issue.assignedAccount}
-                    onChange={this.props.handleInputChange}
-                  >
-                    ${this.state.assignedAccounts}
-                  </Input>
-                </Col>
-                <Col sm="1">
                   <Label for="estimateWorkHour">預估工時</Label>
                 </Col>
                 <Col sm="5">
@@ -269,8 +255,6 @@ class IssueForm extends Component {
                     onChange={this.props.handleInputChange}
                   />
                 </Col>
-              </FormGroup>
-              <FormGroup row>
                 <Col sm="1">
                   <Label for="finishedPercent">完成百分比</Label>
                 </Col>
