@@ -5,6 +5,7 @@
 * NodeJS
 * Express  
 * DB使用PostgreSQL  
+* ORM使用Objection.js
 
 前端使用：
 * ReactJS
