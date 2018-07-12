@@ -62,6 +62,7 @@ app.use((req, res, next) => {
 
 app.use('/api/accounts', require('./routes/account-router'));
 app.use('/api/login', require('./routes/login-router'));
+app.use('/api/logout', require('./routes/logout-router'));
 app.use('/api/projects', require('./routes/project-router'));
 app.use('/api/issue-options', require('./routes/issue-option-router'));
 

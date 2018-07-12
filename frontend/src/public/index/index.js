@@ -22,9 +22,17 @@ class App extends Component {
   }
 
   logout() {
-    window.localStorage.removeItem('loggedInTime');
-    window.localStorage.removeItem('accountName');
-    this.setState({ isLoggedIn: false });
+    (async () => {
+      const res = await fetch(API_URL + '/api/logout', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (res.status === 200) {
+        window.localStorage.removeItem('loggedInTime');
+        window.localStorage.removeItem('accountName');
+        this.setState({ isLoggedIn: false });
+      }
+    })();
   }
 
   hasLoggedIn() {
