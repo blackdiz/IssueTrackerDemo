@@ -28,7 +28,6 @@ class App extends Component {
         credentials: 'include'
       });
       if (res.status === 200) {
-        window.localStorage.removeItem('loggedInTime');
         window.localStorage.removeItem('accountName');
         this.setState({ isLoggedIn: false });
       }
@@ -36,21 +35,24 @@ class App extends Component {
   }
 
   hasLoggedIn() {
-    if (window.localStorage['loggedInTime']) {
-      return new Date().getTime() - window.localStorage['loggedInTime'] < 1800000;
-    } else {
-      return false;
-    }
+    (async () => {
+      const res = await fetch(API_URL + '/api/login', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      this.setState({ isLoggedIn: res.status === 200 });
+    })();
   }
 
   componentDidMount() {
-    this.setState({ isLoggedIn: this.hasLoggedIn() });
+    (async () => {
+      await this.hasLoggedIn();
+    })();
   }
 
   login(name, success) {
     if (success === true) {
       this.setState({ isLoggedIn: success });
-      window.localStorage['loggedInTime'] = new Date().getTime();
       window.localStorage['accountName'] = name;
     }
   }

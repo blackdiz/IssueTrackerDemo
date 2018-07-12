@@ -39,4 +39,11 @@ router.post(
   }
 );
 
+router.get('/', (req, res) => {
+  if (req.session.account) {
+    res.status(200).end();
+  } else {
+    res.status(401).end();
+  }
+});
 module.exports = router;
