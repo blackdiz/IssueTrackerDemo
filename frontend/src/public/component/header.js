@@ -36,7 +36,7 @@ const Header = (props) => {
 
   return (
     <Navbar color="info" dark expand="sm">
-      <NavbarBrand tag={Link} to="/">
+      <NavbarBrand tag={Link} to="/project">
         <h1>Issue Tracker Demo</h1>
       </NavbarBrand>
       <Nav className="ml-auto" navbar>
