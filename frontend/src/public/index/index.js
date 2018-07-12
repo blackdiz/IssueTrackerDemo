@@ -9,6 +9,7 @@ import SignUpForm from '../sign-up/sign-up-form';
 import LoginForm from '../login/login-form';
 import ProjectLayout from '../project/project-layout';
 import NoMatch from '../component/no-match';
+import PrivateRoute from '../component/private-route';
 import 'babel-polyfill';
 
 class App extends Component {
@@ -68,7 +69,11 @@ class App extends Component {
             <Switch>
               <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
-              <Route path="/project" component={ProjectLayout} />
+              <PrivateRoute
+                path="/project"
+                component={ProjectLayout}
+                authenticated={this.state.isLoggedIn}
+              />
               <Route component={NoMatch} />
             </Switch>
           </Container>
