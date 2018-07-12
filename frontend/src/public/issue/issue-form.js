@@ -290,6 +290,7 @@ class IssueForm extends Component {
                 {this.props.button}
               </Button>
             </Form>
+            <div>{this.props.submitMessage}</div>
           </Col>
         </Row>
       </div>

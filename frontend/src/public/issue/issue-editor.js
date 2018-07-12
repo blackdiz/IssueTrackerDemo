@@ -26,7 +26,7 @@ class IssueEditor extends Component {
         estimateWorkHour: 0,
         finishedPercent: 0
       },
-      success: false
+      submitMessage: ''
     };
   }
 
@@ -69,7 +69,6 @@ class IssueEditor extends Component {
       startDate: startDate,
       endDate: endDate
     });
-    console.log(JSON.stringify(newIssue));
     this.setState({
       issue: newIssue
     });
@@ -80,7 +79,6 @@ class IssueEditor extends Component {
       endDate = this.state.issue.startDate;
     }
     const newIssue = Object.assign({}, this.state.issue, { endDate: endDate });
-    console.log(JSON.stringify(newIssue));
     this.setState({
       issue: newIssue
     });
@@ -100,7 +98,6 @@ class IssueEditor extends Component {
       newIssue.startDate === null ? null : moment(newIssue.startDate).format('YYYY-MM-DD');
     newIssue.endDate =
       newIssue.endDate === null ? null : moment(newIssue.endDate).format('YYYY-MM-DD');
-    console.log(JSON.stringify(newIssue));
     const res = await fetch(
       API_URL +
         `/api/projects/${this.props.match.params.id}/issues/${this.props.match.params.issueId}`,
@@ -114,7 +111,7 @@ class IssueEditor extends Component {
       }
     );
     if (res.status === 200) {
-      this.setState({ success: true });
+      this.setState({ submitMessage: '修改成功' });
     }
   }
 
@@ -132,6 +129,7 @@ class IssueEditor extends Component {
             handleChangeStart={this.handleChangeStart}
             handleChangeEnd={this.handleChangeEnd}
             issue={this.state.issue}
+            submitMessage={this.state.submitMessage}
           />
         </div>
       );
