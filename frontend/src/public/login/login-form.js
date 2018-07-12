@@ -66,7 +66,7 @@ class LoginForm extends Component {
 
   render() {
     if (this.state.loginSuccess === true) {
-      return <Redirect to={{ pathname: '/' }} />;
+      return <Redirect to={{ pathname: '/project' }} />;
     }
 
     return (

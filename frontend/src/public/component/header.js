@@ -14,7 +14,7 @@ const Header = (props) => {
         </NavLink>
       </NavItem>,
       <NavItem key="logout">
-        <NavLink tag={Link} to="/" onClick={() => props.logout()}>
+        <NavLink tag={Link} to="/login" onClick={() => props.logout()}>
           登出
         </NavLink>
       </NavItem>

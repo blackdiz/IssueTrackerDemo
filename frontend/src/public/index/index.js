@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Container } from 'reactstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
 import Header from '../component/header';
-import Home from './home';
 import SignUpForm from '../sign-up/sign-up-form';
 import LoginForm from '../login/login-form';
 import ProjectLayout from '../project/project-layout';
@@ -27,8 +25,6 @@ class App extends Component {
     window.localStorage.removeItem('loggedInTime');
     window.localStorage.removeItem('accountName');
     this.setState({ isLoggedIn: false });
-    // const history = createHistory();
-    // history.push('/');
   }
 
   hasLoggedIn() {
@@ -60,7 +56,6 @@ class App extends Component {
           </header>
           <Container fluid>
             <Switch>
-              <Route exact path="/" component={Home} />
               <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
               <Route path="/project" component={ProjectLayout} />
