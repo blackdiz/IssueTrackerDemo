@@ -1,47 +1,28 @@
 'use strict';
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const base = require('./webpack.base.config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = {
+module.exports = merge(base, {
   mode: 'production',
-  context: path.resolve(__dirname, 'src'),
-  entry: './views/index.js',
-  output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'index_bundle.js'
-  },
+  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['env', 'react']
-          }
-        }
-      },
-      {
         test: /css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Issue Tracker',
-      template: './views/template.html'
-    }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
       chunkFilename: '[id].[hash].css'
+    }),
+    new webpack.DefinePlugin({
+      API_URL: JSON.stringify('http://issue-tracker-demo.com:3000')
     })
-  ],
-  serve: {
-    logTime: true,
-    hot: true
-  }
-};
+  ]
+});
