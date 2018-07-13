@@ -68,6 +68,12 @@ class App extends Component {
           </header>
           <Container fluid>
             <Switch>
+              <PrivateRoute
+                exact
+                path="/"
+                component={ProjectLayout}
+                authenticated={this.state.isLoggedIn}
+              />
               <Route path="/login" render={() => <LoginForm login={this.login} />} />
               <Route path="/sign-up" component={SignUpForm} />
               <PrivateRoute
