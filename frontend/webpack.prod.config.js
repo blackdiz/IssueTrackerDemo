@@ -22,7 +22,8 @@ module.exports = merge(base, {
       chunkFilename: '[id].[hash].css'
     }),
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify('http://issue-tracker-demo.com:3000')
+      API_URL: JSON.stringify('https://issue-tracker-demo.nctu.me'),
+      'process.env.NODE_ENV': JSON.stringify('production')
     })
   ]
 });
