@@ -10,6 +10,7 @@ import LoginForm from '../login/login-form';
 import ProjectLayout from '../project/project-layout';
 import NoMatch from '../component/no-match';
 import PrivateRoute from '../component/private-route';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'babel-polyfill';
 
 class App extends Component {
