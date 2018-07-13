@@ -11,15 +11,17 @@ const expressValidation = require('express-validation');
 const app = express();
 const port = process.env.Production || 3000;
 
-// 設定所有router都可接受CORS的prefight request
-const corsOption = {
-  origin: 'http://issue-tracker-demo.com:8080',
-  credentials: true,
-  allowedHeaders: 'Content-Type'
-};
-
 app.use(helmet());
-app.use(cors(corsOption));
+// 開發環境使用express的cors設定，正式環境使用nginx控制
+if (process.env.NODE_ENV !== 'production') {
+  // 設定所有router都可接受CORS的prefight request
+  const corsOption = {
+    origin: 'http://issue-tracker-demo.com:8080',
+    credentials: true,
+    allowedHeaders: 'Content-Type'
+  };
+  app.use(cors(corsOption));
+}
 app.use(
   // saveUninitialized: false 表示不會即使沒有登入也建立session
   session({
@@ -29,7 +31,10 @@ app.use(
     saveUninitialized: false,
     rolling: true,
     cookie: {
-      domain: 'issue-tracker-demo.com',
+      domain:
+        process.env.NODE_ENV === 'production'
+          ? 'issue-tracker-demo.nctu.me'
+          : 'issue-tracker-demo.com',
       httpOnly: true,
       maxAge: 1800000
     }
@@ -75,7 +80,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  logger.info(`Server starts at ${port}`);
+  logger.info(`Server starts at ${port} and env is ${process.env.NODE_ENV}`);
 });
 
 function shouldAuth(req) {
