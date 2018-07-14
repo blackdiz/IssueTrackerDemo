@@ -76,6 +76,9 @@ app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
     logger.error(JSON.stringify(err));
     res.status(err.status).json(err);
+  } else {
+    logger.error(err);
+    res.status(500).end();
   }
 });
 
