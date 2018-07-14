@@ -18,11 +18,11 @@ module.exports = {
 
       return tags;
     } catch (err) {
-      logger.error(JSON.stringify(err));
+      logger.error(err);
 
       await tx.rollback();
 
-      return [];
+      throw err;
     }
   },
   findAllStatus: async () => {
@@ -36,11 +36,11 @@ module.exports = {
 
       return status;
     } catch (err) {
-      logger.error(JSON.stringify(err));
+      logger.error(err);
 
       await tx.rollback();
 
-      return [];
+      throw err;
     }
   },
   findAllPriorities: async () => {
@@ -54,11 +54,11 @@ module.exports = {
 
       return status;
     } catch (err) {
-      logger.error(JSON.stringify(err));
+      logger.error(err);
 
       await tx.rollback();
 
-      return [];
+      throw err;
     }
   }
 };
