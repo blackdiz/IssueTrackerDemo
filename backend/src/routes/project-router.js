@@ -4,6 +4,7 @@ const router = require('express').Router();
 const validate = require('express-validation');
 const schema = require('../config/validation-schema');
 const projectService = require('../service/project-service');
+const { UniqueViolationError } = require('objection-db-errors');
 const logger = require('../config/logger');
 
 router.get('/', (req, res) => {
@@ -49,7 +50,9 @@ router.post('/', validate(schema.project), (req, res) => {
         res.status(200).json(project);
       }
     } catch (err) {
-      if (err.name === 'noAccount') {
+      if (err instanceof UniqueViolationError) {
+        res.status(409).json({ message: '已有此專案名稱' });
+      } else if (err.name === 'noAccount') {
         res.status(400).send('查無使用者資料');
       } else {
         logger.error(`Create project for ${req.session.account.name} failed ${err}`);

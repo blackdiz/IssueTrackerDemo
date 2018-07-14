@@ -45,16 +45,19 @@ class NewProject extends Component {
       if (res.status === 200) {
         createSuccess = true;
       } else {
-        const response = await res.json();
         if (res.status === 400) {
-          this.setState({ signUpMessage: response.errorMessage });
+          const response = await res.json();
+          this.setState({ submitMessage: response.errorMessage });
+        } else if (res.status === 409) {
+          const response = await res.json();
+          this.setState({ submitMessage: response.message });
         } else {
-          this.setState({ signUpMessage: '新增失敗' });
+          this.setState({ submitMessage: '新增失敗' });
         }
       }
     } catch (err) {
       console.error(err);
-      this.setState({ errorMessage: '新增失敗' });
+      this.setState({ submitMessage: '新增失敗' });
     }
     if (createSuccess === true) {
       this.setState({ createSuccess: createSuccess });
