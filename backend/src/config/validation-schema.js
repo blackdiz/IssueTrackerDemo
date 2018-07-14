@@ -3,6 +3,23 @@
 const Joi = require('joi');
 
 module.exports = {
+  account: {
+    body: {
+      account: Joi.object()
+        .required()
+        .keys({
+          name: Joi.string()
+            .max(20)
+            .alphanum()
+            .required()
+            .error(() => ({ message: '請輸入使用者名稱' })),
+          password: Joi.string()
+            .alphanum()
+            .required()
+            .error(() => ({ message: '請輸入密碼' }))
+        })
+    }
+  },
   project: {
     body: {
       project: Joi.object()

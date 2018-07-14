@@ -1,9 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Col, Form, FormGroup, Label, Button } from 'reactstrap';
-import AccountPasswordInput from '../component/account-password-input';
-import AccountNameInput from '../component/account-name-input';
+import AccountForm, { handleInputChange } from '../component/account-form';
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -11,43 +9,45 @@ class SignUpForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      accountName: '',
-      password: '',
+      account: {
+        name: '',
+        password: ''
+      },
       submitEnable: true,
-      signUpMessage: ''
+      submitMessage: ''
     };
   }
 
   handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ account: handleInputChange(e, this.state.account) });
   }
 
   async handleSubmit(e) {
-    this.setState({ submitEnable: false, signUpMessage: '' });
+    this.setState({ submitEnable: false, submitMessage: '' });
     e.preventDefault();
     try {
       const res = await fetch(API_URL + '/api/accounts', {
-        body: JSON.stringify({
-          accountName: this.state.accountName,
-          password: this.state.password
-        }),
+        body: JSON.stringify({ account: this.state.account }),
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'POST'
       });
       if (res.status === 200) {
-        this.setState({ signUpMessage: '註冊成功' });
+        this.setState({ submitMessage: '註冊成功' });
       } else {
-        const response = await res.text();
         if (res.status === 400) {
-          this.setState({ signUpMessage: response });
+          const response = await res.json();
+          const errorMessage = response.errors.map((error) => {
+            return <div key={error.messages}>{error.messages}</div>;
+          });
+          this.setState({ submitMessage: errorMessage });
         } else {
-          this.setState({ signUpMessage: '註冊失敗' });
+          this.setState({ submitMessage: '註冊失敗' });
         }
       }
     } catch (err) {
-      this.setState({ signUpMessage: '註冊失敗' });
+      this.setState({ submitMessage: '註冊失敗' });
     }
 
     this.setState({ submitEnable: true });
@@ -55,39 +55,15 @@ class SignUpForm extends Component {
 
   render() {
     return (
-      <div className="d-flex flex-column align-items-sm-center mt-5 justify-content-sm-center align-content-sm-center">
-        <div>
-          <h4>註冊</h4>
-        </div>
-        <div className="bg-light p-5">
-          <Form onSubmit={this.handleSubmit}>
-            <FormGroup row>
-              <Label for="accountName" sm={4} className="col-form-label">
-                使用者名稱
-              </Label>
-              <Col sm={8}>
-                <AccountNameInput value={this.state.accountName} handleChange={this.handleChange} />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label for="passoword" sm={4} className="col-form-label">
-                使用者密碼
-              </Label>
-              <Col sm={8}>
-                <AccountPasswordInput
-                  value={this.state.password}
-                  handleChange={this.handleChange}
-                />
-              </Col>
-            </FormGroup>
-
-            <Button type="submit" color="primary" disabled={!this.state.submitEnable}>
-              送出
-            </Button>
-          </Form>
-          <div>{this.state.signUpMessage}</div>
-        </div>
-      </div>
+      <AccountForm
+        title="註冊"
+        button="送出"
+        account={this.state.account}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+        submitEnable={this.state.submitEnable}
+        submitMessage={this.state.submitMessage}
+      />
     );
   }
 }

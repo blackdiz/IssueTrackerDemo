@@ -15,30 +15,30 @@ async function validatePassword(rawPassword, hashedPassword) {
 }
 
 module.exports = {
-  authenticate: async (accountname, password) => {
+  authenticate: async (account) => {
     let tx = null;
-    let account = null;
+    let dbAccount = null;
     try {
       tx = await transaction();
-      account = await accountRepository.findByName(accountname, tx);
+      dbAccount = await accountRepository.findByName(account.name, tx);
       if (!account) {
-        logger.error(`No account name:${accountname} exist`);
+        logger.error(`No account name:${account.name} exist`);
         const err = {
           name: 'noAccount'
         };
         throw err;
       }
-      if (!(await validatePassword(password, account.password))) {
-        logger.error(`Account:${accountname} password is invalide`);
+      if (!(await validatePassword(account.password, dbAccount.password))) {
+        logger.error(`Account:${dbAccount.name} password is invalide`);
         const err = {
           name: 'invalidPassword'
         };
         throw err;
       }
-      await accountRepository.updateLoginTime(account.name, tx);
+      await accountRepository.updateLoginTime(dbAccount.name, tx);
       await tx.commit();
 
-      return account;
+      return dbAccount;
     } catch (err) {
       logger.error(JSON.stringify(err));
 
