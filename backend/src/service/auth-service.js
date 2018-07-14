@@ -10,7 +10,7 @@ async function validatePassword(rawPassword, hashedPassword) {
   try {
     return bcrypt.compare(rawPassword, hashedPassword);
   } catch (err) {
-    logger.error(err);
+    logger.error(err.stack);
     return false;
   }
 }
@@ -35,7 +35,7 @@ module.exports = {
 
       return dbAccount;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 

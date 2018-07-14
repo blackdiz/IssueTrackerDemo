@@ -74,7 +74,7 @@ app.use('/api/issue-options', require('./routes/issue-option-router'));
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
   if (err instanceof expressValidation.ValidationError) {
-    logger.error(JSON.stringify(err));
+    logger.error(err.stack)(JSON.stringify(err));
     res.status(err.status).json(err);
   } else {
     res.status(500).end();

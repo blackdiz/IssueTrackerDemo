@@ -18,7 +18,7 @@ module.exports = {
 
       return tags;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -36,7 +36,7 @@ module.exports = {
 
       return status;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -54,7 +54,7 @@ module.exports = {
 
       return status;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 

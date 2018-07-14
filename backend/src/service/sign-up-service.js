@@ -21,7 +21,7 @@ module.exports = {
 
       await tx.commit();
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 

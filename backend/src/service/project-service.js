@@ -29,7 +29,7 @@ module.exports = {
 
       return newProject;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -48,7 +48,7 @@ module.exports = {
 
       return projects;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -67,7 +67,7 @@ module.exports = {
 
       return project;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -88,7 +88,7 @@ module.exports = {
 
       return newProject;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -107,7 +107,7 @@ module.exports = {
 
       return deleteCount;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -126,7 +126,7 @@ module.exports = {
 
       return issues;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -147,7 +147,7 @@ module.exports = {
 
       return savedIssue;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -166,7 +166,7 @@ module.exports = {
 
       return issue;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -188,7 +188,7 @@ module.exports = {
 
       return issue;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -208,7 +208,7 @@ module.exports = {
 
       return accounts;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
@@ -226,7 +226,7 @@ module.exports = {
 
       return deleteCount;
     } catch (err) {
-      logger.error(err);
+      logger.error(err.stack);
 
       await tx.rollback();
 
