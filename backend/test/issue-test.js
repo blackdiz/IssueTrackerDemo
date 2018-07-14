@@ -29,13 +29,13 @@ describe('issueRepository test', () => {
         tagId: 1,
         assignedAccount: 'test_name',
         estimateWorkHour: 8,
-        estimateStartDate: '2018-06-01',
-        estimateEndDate: '2018-07-30',
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
         finishedPercent: 80,
         creator: 'test_name'
       });
-      savedIssue = await issueRepository.saveIssueOfProject(project, issue, tx);
-      console.log(savedIssue);
+      savedIssue = await issueRepository.addIssueToProject(project, issue, tx);
+      console.log(`savedIssue: ${savedIssue}`);
       assert.exists(savedIssue);
       assert.exists(savedIssue.createTime);
       assert.exists(savedIssue.lastUpdateTime);
@@ -47,8 +47,8 @@ describe('issueRepository test', () => {
       assert.strictEqual(savedIssue.tagId, issue.tagId);
       assert.strictEqual(savedIssue.assignedAccount, issue.assignedAccount);
       assert.strictEqual(savedIssue.estimateWorkHour, issue.estimateWorkHour);
-      assert.strictEqual(savedIssue.estimateStartDate, issue.estimateStartDate);
-      assert.strictEqual(savedIssue.estimateEndDate, issue.estimateEndDate);
+      assert.strictEqual(savedIssue.startDate, issue.startDate);
+      assert.strictEqual(savedIssue.endDate, issue.endDate);
       assert.strictEqual(savedIssue.finishedPercent, issue.finishedPercent);
       assert.strictEqual(savedIssue.creator, issue.creator);
     });
@@ -56,13 +56,14 @@ describe('issueRepository test', () => {
   describe('#findAllIssuesOfProject', () => {
     it('find all issues of a project', async () => {
       const dbIssue = await issueRepository.findAllByProject(project, tx);
-      console.log(dbIssue);
+      console.log(`dbIssue: ${dbIssue}`);
       assert.strictEqual(dbIssue.length, 1);
-      assert.deepEqual(dbIssue[0], savedIssue);
+      assert.strictEqual(dbIssue[0].title, savedIssue.title);
+      assert.strictEqual(dbIssue[0].creator, savedIssue.creator);
     });
   });
   after(async () => {
-    await tx.commit();
+    await tx.rollback();
   });
 });
 
@@ -79,7 +80,7 @@ async function prepareAccountAndProject(tx) {
     isPublic: true,
     creator: 'test_name'
   });
-  await projectRepository.saveProjectOfAccount(account, project, tx);
+  await projectRepository.addProjectToAccount(account, project, tx);
 
   return project;
 }
