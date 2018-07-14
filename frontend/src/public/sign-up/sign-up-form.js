@@ -42,6 +42,9 @@ class SignUpForm extends Component {
             return <div key={error.messages}>{error.messages}</div>;
           });
           this.setState({ submitMessage: errorMessage });
+        } else if (res.status === 409) {
+          const response = await res.json();
+          this.setState({ submitMessage: response.message });
         } else {
           this.setState({ submitMessage: '註冊失敗' });
         }

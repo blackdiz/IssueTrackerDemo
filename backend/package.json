@@ -5,7 +5,7 @@
   "main": "./src/app.js",
   "scripts": {
     "run": "pm2 start",
-    "test": "mocha --recursive --exit",
+    "test": "NODE_ENV=test mocha --recursive --exit",
     "gen-table": "pnpx typeorm-model-generator -h localhost -d issue_tracker -u blackdiz -x black2603 -e postgres -o ./src/model -s public --ce pascal --cp camel"
   },
   "author": "",
@@ -22,6 +22,7 @@
     "knex": "^0.14.6",
     "moment-timezone": "^0.5.21",
     "objection": "^1.1.10",
+    "objection-db-errors": "^1.0.0",
     "pg": "^7.4.3",
     "winston": "^3.0.0"
   },

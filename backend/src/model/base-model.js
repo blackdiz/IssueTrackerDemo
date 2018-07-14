@@ -1,9 +1,10 @@
 'use strict';
 
 const { Model, snakeCaseMappers } = require('objection');
+const { DbErrors } = require('objection-db-errors');
 const moment = require('moment-timezone');
 
-class BaseModel extends Model {
+class BaseModel extends DbErrors(Model) {
   static get columnNameMappers() {
     return snakeCaseMappers();
   }
