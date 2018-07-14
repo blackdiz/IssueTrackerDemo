@@ -77,7 +77,6 @@ app.use((err, req, res, next) => {
     logger.error(JSON.stringify(err));
     res.status(err.status).json(err);
   } else {
-    logger.error(err);
     res.status(500).end();
   }
 });
