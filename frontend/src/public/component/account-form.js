@@ -31,7 +31,7 @@ const AccountForm = (props) => {
                 name="name"
                 id="name"
                 maxLength={20}
-                // required
+                required
                 value={props.account.name}
                 onChange={props.handleChange}
                 className="form-control"
@@ -49,7 +49,7 @@ const AccountForm = (props) => {
                 name="password"
                 id="password"
                 maxLength={20}
-                // required
+                required
                 value={props.account.password}
                 onChange={props.handleChange}
                 className="form-control"
