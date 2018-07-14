@@ -13,7 +13,7 @@ const port = process.env.Production || 3000;
 
 app.use(helmet());
 // 開發環境使用express的cors設定，正式環境使用nginx控制
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   // 設定所有router都可接受CORS的prefight request
   const corsOption = {
     origin: 'http://issue-tracker-demo.com:8080',
@@ -32,9 +32,9 @@ app.use(
     rolling: true,
     cookie: {
       domain:
-        process.env.NODE_ENV === 'production'
-          ? 'issue-tracker-demo.nctu.me'
-          : 'issue-tracker-demo.com',
+        process.env.NODE_ENV === 'development'
+          ? 'issue-tracker-demo.com'
+          : 'issue-tracker-demo.nctu.me',
       httpOnly: true,
       maxAge: 1800000
     }
