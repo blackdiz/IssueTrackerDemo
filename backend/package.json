@@ -2,8 +2,9 @@
   "name": "issuetrackerdemo",
   "version": "1.0.0",
   "description": "A simple issue tracker project",
-  "main": "app.js",
+  "main": "./src/app.js",
   "scripts": {
+    "run": "pm2 start",
     "test": "mocha --recursive --exit",
     "gen-table": "pnpx typeorm-model-generator -h localhost -d issue_tracker -u blackdiz -x black2603 -e postgres -o ./src/model -s public --ce pascal --cp camel"
   },
@@ -16,7 +17,6 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "express-validation": "^1.0.2",
-    "generic-pool": "^3.4.2",
     "helmet": "^3.12.1",
     "joi": "^13.4.0",
     "knex": "^0.14.6",
