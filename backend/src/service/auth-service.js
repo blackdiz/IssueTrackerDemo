@@ -3,6 +3,7 @@
 const bcrypt = require('bcrypt');
 const transaction = require('../utils/transaction');
 const accountRepository = require('../repositories/account-repository');
+const AuthenticationError = require('../error/AuthenticationError');
 const logger = require('../config/logger');
 
 async function validatePassword(rawPassword, hashedPassword) {
@@ -21,26 +22,20 @@ module.exports = {
     try {
       tx = await transaction();
       dbAccount = await accountRepository.findByName(account.name, tx);
-      if (!account) {
-        logger.error(`No account name:${account.name} exist`);
-        const err = {
-          name: 'noAccount'
-        };
-        throw err;
+
+      if (dbAccount) {
+        if (!(await validatePassword(account.password, dbAccount.password))) {
+          throw new AuthenticationError(account.name);
+        }
+
+        await accountRepository.updateLoginTime(dbAccount.name, tx);
       }
-      if (!(await validatePassword(account.password, dbAccount.password))) {
-        logger.error(`Account:${dbAccount.name} password is invalide`);
-        const err = {
-          name: 'invalidPassword'
-        };
-        throw err;
-      }
-      await accountRepository.updateLoginTime(dbAccount.name, tx);
+
       await tx.commit();
 
       return dbAccount;
     } catch (err) {
-      logger.error(JSON.stringify(err));
+      logger.error(err);
 
       await tx.rollback();
 

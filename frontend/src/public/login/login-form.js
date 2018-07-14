@@ -48,6 +48,9 @@ class LoginForm extends Component {
             return <div key={error.messages}>{error.messages}</div>;
           });
           this.setState({ submitMessage: errorMessage });
+        } else if (res.status === 401) {
+          const response = await res.json();
+          this.setState({ submitMessage: response.message });
         } else {
           this.setState({ submitMessage: '登入失敗' });
         }

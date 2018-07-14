@@ -4,7 +4,7 @@ const router = require('express').Router();
 const authService = require('../service/auth-service');
 const validate = require('express-validation');
 const schema = require('../config/validation-schema');
-const logger = require('../config/logger');
+const AuthenticationError = require('../error/AuthenticationError');
 
 router.post('/', validate(schema.account), (req, res) => {
   (async () => {
@@ -14,17 +14,14 @@ router.post('/', validate(schema.account), (req, res) => {
         req.session.account = account;
         res.status(200).end();
       } else {
-        res.status(401).end();
+        res.status(401).json({ message: '查無此使用者帳號' });
       }
     } catch (err) {
-      logger.error(err);
-      if (err.name === 'noAccount') {
-        res.status(400).end('使用者名稱不存在');
+      if (err instanceof AuthenticationError) {
+        res.status(401).json({ message: '密碼錯誤' });
+      } else {
+        res.status(500).end();
       }
-      if (err.name === 'invalidPassword') {
-        res.status(400).end('密碼錯誤');
-      }
-      res.status(400).end();
     }
   })();
 });
