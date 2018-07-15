@@ -14,7 +14,7 @@ module.exports = {
       tx = await transaction();
       const dbAccount = await accountRepository.findByName(account.name, tx);
 
-      if (dbAccount) {
+      if (!dbAccount) {
         const err = new Error(`Create project for ${account.name} failed. Account not exists.`);
         err.name = 'AccountNotFoundError';
         throw err;
