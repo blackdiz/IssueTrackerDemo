@@ -1,5 +1,6 @@
-# IssueTrackerDemo
-專案問題管理程式  
+# IssueTrackerDemo  
+
+專案問題管理程式，前後端分離，後端只提供API endpoint
 
 後端使用：  
 * NodeJS
