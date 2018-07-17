@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 const ProjectHeader = (props) => {
   return (
     <Nav tabs>
-      <NavItem>
+      <NavItem active={true}>
         <NavLink tag={Link} to={`${props.match.url}`}>
           專案資訊
         </NavLink>
       </NavItem>
-      <NavItem>
+      <NavItem active={true}>
         <NavLink tag={Link} to={`${props.match.url}/issue`}>
           問題清單
         </NavLink>
