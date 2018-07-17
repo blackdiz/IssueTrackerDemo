@@ -5,10 +5,15 @@ const Issue = require('../model/issue');
 module.exports = {
   addIssueToProject: (project, issue, tx) => project.$relatedQuery('issues', tx).insert(issue),
   findAllByProject: (project, tx) =>
-    project
-      .$relatedQuery('issues', tx)
-      .columns('id', 'title', 'creator')
-      .orderBy('id', 'asc'),
+    project.$loadRelated(
+      '[issues(orderById).[priority, tag, status]]',
+      {
+        orderById: (builder) => {
+          builder.orderBy('id');
+        }
+      },
+      tx
+    ),
   findByProjectAndId: (project, id, tx) => project.$relatedQuery('issues', tx).findOne({ id }),
   update: (projectId, id, issue, tx) =>
     Issue.query(tx)

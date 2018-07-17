@@ -25,9 +25,9 @@ class IssueIndex extends Component {
         credentials: 'include'
       });
       if (res.status === 200) {
-        const issues = await res.json();
-        if (Array.isArray(issues)) {
-          this.setState({ issues: issues });
+        const response = await res.json();
+        if (Array.isArray(response.issues)) {
+          this.setState({ issues: response.issues });
         }
       }
     })();

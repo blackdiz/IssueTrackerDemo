@@ -56,10 +56,17 @@ describe('issueRepository test', () => {
   describe('#findAllIssuesOfProject', () => {
     it('find all issues of a project', async () => {
       const dbIssue = await issueRepository.findAllByProject(project, tx);
-      console.log(`dbIssue: ${dbIssue}`);
-      assert.strictEqual(dbIssue.length, 1);
-      assert.strictEqual(dbIssue[0].title, savedIssue.title);
-      assert.strictEqual(dbIssue[0].creator, savedIssue.creator);
+      console.log(`dbIssue: ${JSON.stringify(dbIssue)}`);
+      const issue = dbIssue.issues[0];
+      assert.strictEqual(issue.title, savedIssue.title);
+      assert.strictEqual(issue.creator, savedIssue.creator);
+      assert.strictEqual(issue.priorityId, 1);
+      assert.strictEqual(issue.tagId, 1);
+      assert.strictEqual(issue.statusId, 1);
+      const { priority, tag, status } = issue;
+      assert.strictEqual(priority.id, 1);
+      assert.strictEqual(tag.id, 1);
+      assert.strictEqual(status.id, 1);
     });
   });
   after(async () => {
