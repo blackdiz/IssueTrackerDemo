@@ -19,7 +19,8 @@ class App extends Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      isLoading: true
     };
   }
 
@@ -42,7 +43,7 @@ class App extends Component {
         method: 'GET',
         credentials: 'include'
       });
-      this.setState({ isLoggedIn: res.status === 200 });
+      this.setState({ isLoggedIn: res.status === 200, isLoading: false });
     })();
   }
 
@@ -80,6 +81,7 @@ class App extends Component {
                 path="/project"
                 component={ProjectLayout}
                 authenticated={this.state.isLoggedIn}
+                isLoading={this.state.isLoading}
               />
               <Route component={NoMatch} />
             </Switch>
