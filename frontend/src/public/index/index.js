@@ -32,7 +32,7 @@ class App extends Component {
       });
       if (res.status === 200) {
         window.localStorage.removeItem('accountName');
-        this.setState({ isLoggedIn: false });
+        this.setState({ isLoggedIn: false, isLoading: true });
       }
     })();
   }
@@ -55,7 +55,7 @@ class App extends Component {
 
   login(name, success) {
     if (success === true) {
-      this.setState({ isLoggedIn: success });
+      this.setState({ isLoggedIn: success, isLoading: false });
       window.localStorage['accountName'] = name;
     }
   }
