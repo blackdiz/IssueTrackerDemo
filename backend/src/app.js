@@ -88,6 +88,7 @@ app.listen(port, () => {
 function shouldAuth(req) {
   return (
     !(req.originalUrl === '/api/login' && req.method === 'POST') &&
-    !(req.originalUrl === '/api/accounts' && req.method === 'POST')
+    !(req.originalUrl === '/api/accounts' && req.method === 'POST') &&
+    !(req.originalUrl === '/api/logout' && req.method === 'GET')
   );
 }
