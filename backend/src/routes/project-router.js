@@ -73,9 +73,9 @@ router.get('/:id/issues', async (req, res, next) => {
   try {
     const issues = await projectService.getAllIssues(
       req.params.id,
-      req.query.tag,
-      req.query.status,
-      req.query.priority
+      req.query.tagId,
+      req.query.statusId,
+      req.query.priorityId
     );
     res.status(200).json(issues);
   } catch (err) {

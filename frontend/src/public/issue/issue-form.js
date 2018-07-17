@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-async function fetchTags() {
+export async function fetchTags() {
   const res = await fetch(API_URL + '/api/issue-options/tags', {
     method: 'GET',
     credentials: 'include'
@@ -23,7 +23,7 @@ async function fetchTags() {
   }
 }
 
-async function fetchStatus() {
+export async function fetchStatus() {
   const res = await fetch(API_URL + '/api/issue-options/status', {
     method: 'GET',
     credentials: 'include'
@@ -40,7 +40,7 @@ async function fetchStatus() {
   }
 }
 
-async function fetchPriorities() {
+export async function fetchPriorities() {
   const res = await fetch(API_URL + '/api/issue-options/priorities', {
     method: 'GET',
     credentials: 'include'

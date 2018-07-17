@@ -114,18 +114,29 @@ module.exports = {
       throw err;
     }
   },
-  getAllIssues: async (projectId) => {
+  getAllIssues: async (projectId, tagId, statusId, priorityId) => {
     let tx;
     try {
       tx = await transaction();
       const project = await projectRepository.findById(projectId, tx);
       let issues = [];
-      issues = await issueRepository.findAllByProject(project, tx);
+      const filter = {};
+      if (tagId) {
+        filter.tagId = tagId;
+      }
+      if (statusId) {
+        filter.statusId = statusId;
+      }
+      if (priorityId) {
+        filter.priorityId = priorityId;
+      }
+      issues = await issueRepository.findAllByProject(project, tx, filter);
 
       await tx.commit();
 
       return issues;
     } catch (err) {
+      logger.info('catch in service');
       logger.error(err.stack);
 
       await tx.rollback();

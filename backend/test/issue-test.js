@@ -14,7 +14,7 @@ describe('issueRepository test', () => {
   let project;
   let savedIssue;
 
-  before(async () => {
+  beforeEach(async () => {
     tx = await transaction();
     project = await prepareAccountAndProject(tx);
   });
@@ -55,21 +55,113 @@ describe('issueRepository test', () => {
   });
   describe('#findAllIssuesOfProject', () => {
     it('find all issues of a project', async () => {
-      const dbIssue = await issueRepository.findAllByProject(project, tx);
-      console.log(`dbIssue: ${JSON.stringify(dbIssue)}`);
-      const issue = dbIssue.issues[0];
-      assert.strictEqual(issue.title, savedIssue.title);
-      assert.strictEqual(issue.creator, savedIssue.creator);
-      assert.strictEqual(issue.priorityId, 1);
-      assert.strictEqual(issue.tagId, 1);
-      assert.strictEqual(issue.statusId, 1);
-      const { priority, tag, status } = issue;
+      const issue = Object.assign(new Issue(), {
+        title: 'test_issue',
+        description: 'test_issue1',
+        statusId: 1,
+        priorityId: 1,
+        tagId: 1,
+        assignedAccount: 'test_name',
+        estimateWorkHour: 8,
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
+        finishedPercent: 80,
+        creator: 'test_name'
+      });
+      savedIssue = await issueRepository.addIssueToProject(project, issue, tx);
+      const dbIssues = await issueRepository.findAllByProject(project, tx);
+      console.log(`dbIssue: ${JSON.stringify(dbIssues)}`);
+      const dbIssue = dbIssues[0];
+      assert.strictEqual(dbIssue.title, savedIssue.title);
+      assert.strictEqual(dbIssue.creator, savedIssue.creator);
+      assert.strictEqual(dbIssue.priorityId, 1);
+      assert.strictEqual(dbIssue.tagId, 1);
+      assert.strictEqual(dbIssue.statusId, 1);
+      const { priority, tag, status } = dbIssue;
       assert.strictEqual(priority.id, 1);
       assert.strictEqual(tag.id, 1);
       assert.strictEqual(status.id, 1);
     });
+    it('find all dbIssues of a project with filter', async () => {
+      const issue1 = Object.assign(new Issue(), {
+        title: 'test_issue_1',
+        description: 'test_issue1',
+        statusId: 1,
+        priorityId: 1,
+        tagId: 1,
+        assignedAccount: 'test_name',
+        estimateWorkHour: 8,
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
+        finishedPercent: 80,
+        creator: 'test_name'
+      });
+      const issue2 = Object.assign(new Issue(), {
+        title: 'test_issue_2',
+        description: 'test_issue1',
+        statusId: 2,
+        priorityId: 2,
+        tagId: 2,
+        assignedAccount: 'test_name',
+        estimateWorkHour: 8,
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
+        finishedPercent: 80,
+        creator: 'test_name'
+      });
+      const issue3 = Object.assign(new Issue(), {
+        title: 'test_issue_3',
+        description: 'test_issue1',
+        statusId: 3,
+        priorityId: 3,
+        tagId: 3,
+        assignedAccount: 'test_name',
+        estimateWorkHour: 8,
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
+        finishedPercent: 80,
+        creator: 'test_name'
+      });
+      const issue4 = Object.assign(new Issue(), {
+        title: 'test_issue_4',
+        description: 'test_issue1',
+        statusId: 5,
+        priorityId: 3,
+        tagId: 3,
+        assignedAccount: 'test_name',
+        estimateWorkHour: 8,
+        startDate: '2018-06-01',
+        endDate: '2018-07-30',
+        finishedPercent: 80,
+        creator: 'test_name'
+      });
+      await issueRepository.addIssueToProject(project, issue1, tx);
+      await issueRepository.addIssueToProject(project, issue2, tx);
+      await issueRepository.addIssueToProject(project, issue3, tx);
+      await issueRepository.addIssueToProject(project, issue4, tx);
+
+      const filter1 = { tagId: 1 };
+      const filter2 = { tagId: 2 };
+      const filter3 = { tagId: 3 };
+      const filter4 = { tagId: 3, statusId: 5 };
+
+      const result1 = await issueRepository.findAllByProject(project, tx, filter1);
+      const result2 = await issueRepository.findAllByProject(project, tx, filter2);
+      const result3 = await issueRepository.findAllByProject(project, tx, filter3);
+      const result4 = await issueRepository.findAllByProject(project, tx, filter4);
+
+      console.log(result1);
+      console.log(result2);
+      console.log(result3);
+      console.log(result4);
+
+      assert.strictEqual(result1.length, 1);
+      assert.strictEqual(result2.length, 1);
+      assert.strictEqual(result3.length, 2);
+      assert.strictEqual(result4.length, 1);
+    });
   });
-  after(async () => {
+  afterEach(async () => {
     await tx.rollback();
   });
 });

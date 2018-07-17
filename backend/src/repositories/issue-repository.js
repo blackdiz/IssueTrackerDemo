@@ -4,16 +4,22 @@ const Issue = require('../model/issue');
 
 module.exports = {
   addIssueToProject: (project, issue, tx) => project.$relatedQuery('issues', tx).insert(issue),
-  findAllByProject: (project, tx) =>
-    project.$loadRelated(
-      '[issues(orderById).[priority, tag, status]]',
-      {
-        orderById: (builder) => {
-          builder.orderBy('id');
-        }
-      },
-      tx
-    ),
+  findAllByProject: (project, tx, filter) => {
+    const builder = Issue.query(tx).where('project_id', project.id);
+
+    if (filter) {
+      Object.keys(filter).forEach((key) => {
+        builder.andWhere(`issue.${key.replace('Id', '_id')}`, filter[key]);
+      });
+    }
+
+    builder
+      .eagerAlgorithm(Issue.JoinEagerAlgorithm)
+      .eager('[priority, tag, status]')
+      .orderBy('id');
+
+    return builder;
+  },
   findByProjectAndId: (project, id, tx) => project.$relatedQuery('issues', tx).findOne({ id }),
   update: (projectId, id, issue, tx) =>
     Issue.query(tx)
