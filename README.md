@@ -18,5 +18,7 @@
 * 專案建立、修改、刪除
 * 問題建立、修改、刪除  
 
-Demo網站(目前運行於AWS EC2)  
-https://issue-tracker-demo.nctu.me/login
+TODO
+* Dockerize
+* 建立CI & CD
+* 改用TypeScript
