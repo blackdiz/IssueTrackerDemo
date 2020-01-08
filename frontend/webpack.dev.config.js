@@ -27,7 +27,7 @@ module.exports = merge(base, {
     content: path.join(__dirname, 'dist'),
     logTime: true,
     hot: true,
-    host: 'issue-tracker-demo.com',
+    host: '127.0.0.1',
     add: (app, middleware) => {
       middleware.webpack();
       app.use(convert(history()));
