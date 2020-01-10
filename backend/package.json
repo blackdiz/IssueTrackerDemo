@@ -19,7 +19,7 @@
     "express-validation": "^1.0.2",
     "helmet": "^3.12.1",
     "joi": "^13.4.0",
-    "knex": "^0.14.6",
+    "knex": "^0.20.7",
     "moment-timezone": "^0.5.21",
     "objection": "^1.1.10",
     "objection-db-errors": "^1.0.0",
