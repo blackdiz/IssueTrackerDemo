@@ -19,6 +19,6 @@
 * 問題建立、修改、刪除  
 
 TODO
-* Dockerize
+* 持續更新版本和容器化
 * 建立CI & CD
 * 改用TypeScript
