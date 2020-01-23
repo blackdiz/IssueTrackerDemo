@@ -23,14 +23,9 @@ module.exports = merge(base, {
       API_URL: JSON.stringify('http://localhost:3000')
     })
   ],
-  serve: {
-    content: path.join(__dirname, 'dist'),
-    logTime: true,
-    hot: true,
-    host: 'localhost',
-    add: (app, middleware) => {
-      middleware.webpack();
-      app.use(convert(history()));
-    }
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 8080,
   }
 });
