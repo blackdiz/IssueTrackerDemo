@@ -1,16 +1,24 @@
 version: '3.7'
 services:
+        frontend:
+                build: ./frontend
+                container_name: frontend
+                ports:
+                        - "8080:8080"
+                networks:
+                        - app-network
+                depends_on:
+                        - backend
         backend:
-                image: issue-tracker-backend
+                build: ./backend
                 ports:
                         - "3000:3000"
                 networks:
                         - app-network
                 depends_on:
-                        - pg
-        pg:
+                        - db 
+        db:
                 image: postgres
-                container_name: db
                 ports:
                         - "5432:5432"
                 volumes:
