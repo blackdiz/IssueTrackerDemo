@@ -1,5 +1,13 @@
 version: '3.7'
 services:
+        backend:
+                image: issue-tracker-backend
+                ports:
+                        - "3000:3000"
+                networks:
+                        - app-network
+                depends_on:
+                        - pg
         pg:
                 image: postgres
                 container_name: db
@@ -11,3 +19,9 @@ services:
                         - "POSTGRES_USER=issue_test"
                         - "POSTGRES_PASSWORD=issue_test"
                         - "POSTGRES_DB=issue_tracker"
+                networks:
+                        - app-network
+
+networks:
+        app-network:
+                driver: bridge
