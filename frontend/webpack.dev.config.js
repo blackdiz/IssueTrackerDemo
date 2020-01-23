@@ -20,14 +20,14 @@ module.exports = merge(base, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify('http://issue-tracker-demo.com:3000')
+      API_URL: JSON.stringify('http://localhost:3000')
     })
   ],
   serve: {
     content: path.join(__dirname, 'dist'),
     logTime: true,
     hot: true,
-    host: '127.0.0.1',
+    host: 'localhost',
     add: (app, middleware) => {
       middleware.webpack();
       app.use(convert(history()));

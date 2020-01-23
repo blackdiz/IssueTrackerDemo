@@ -1,7 +1,7 @@
 'use strict';
 
 const router = require('express').Router();
-const validate = require('express-validation');
+const validator = require('../utils/validator');
 const schema = require('../config/validation-schema');
 const projectService = require('../service/project-service');
 const { UniqueViolationError } = require('objection-db-errors');
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', validate(schema.project), async (req, res, next) => {
+router.post('/', validator.validate(schema.project), async (req, res, next) => {
   try {
     const project = await projectService.createProject(req.body.project, req.session.account);
     if (project !== null) {
@@ -43,7 +43,7 @@ router.post('/', validate(schema.project), async (req, res, next) => {
   }
 });
 
-router.put('/:id', validate(schema.project), async (req, res, next) => {
+router.put('/:id', validator.validate(schema.project), async (req, res, next) => {
   try {
     const project = await projectService.updateProject(req.body.project, req.params.id);
     if (project !== null) {
@@ -83,7 +83,7 @@ router.get('/:id/issues', async (req, res, next) => {
   }
 });
 
-router.post('/:id/issues', validate(schema.issue), async (req, res, next) => {
+router.post('/:id/issues', validator.validate(schema.issue), async (req, res, next) => {
   try {
     const newProject = await projectService.addIssueToProject(
       req.body.issue,
@@ -112,7 +112,7 @@ router.get('/:id/issues/:issueId', async (req, res, next) => {
   }
 });
 
-router.put('/:id/issues/:issueId', validate(schema.issue), async (req, res, next) => {
+router.put('/:id/issues/:issueId', validator.validate(schema.issue), async (req, res, next) => {
   try {
     const issue = await projectService.updateIssue(
       req.params.id,
@@ -149,4 +149,5 @@ router.get('/:id/accounts', async (req, res, next) => {
     next(err);
   }
 });
+
 module.exports = router;

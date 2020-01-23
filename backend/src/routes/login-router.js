@@ -2,11 +2,11 @@
 
 const router = require('express').Router();
 const authService = require('../service/auth-service');
-const validate = require('express-validation');
+const validator = require('../utils/validator');
 const schema = require('../config/validation-schema');
 const AuthenticationError = require('../error/AuthenticationError');
 
-router.post('/', validate(schema.account), async (req, res, next) => {
+router.post('/', validator.validate(schema.account), async (req, res, next) => {
   try {
     const account = await authService.authenticate(req.body.account);
     if (account) {

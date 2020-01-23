@@ -6,7 +6,7 @@ const cors = require('cors'); // 設定CORS
 const bodyParser = require('body-parser'); // parse POST的body
 const session = require('express-session');
 const logger = require('./config/logger');
-const expressValidation = require('express-validation');
+const { isCelebrate } = require('celebrate');
 
 const app = express();
 const port = process.env.Production || 3000;
@@ -16,7 +16,7 @@ app.use(helmet());
 if (process.env.NODE_ENV === 'development') {
   // 設定所有router都可接受CORS的prefight request
   const corsOption = {
-    origin: 'http://issue-tracker-demo.com:8080',
+    origin: 'http://localhost:8080',
     credentials: true,
     allowedHeaders: 'Content-Type'
   };
@@ -33,7 +33,7 @@ app.use(
     cookie: {
       domain:
         process.env.NODE_ENV === 'development'
-          ? 'issue-tracker-demo.com'
+          ? 'localhost'
           : 'issue-tracker-demo.nctu.me',
       httpOnly: true,
       maxAge: 1800000
@@ -73,8 +73,8 @@ app.use('/api/issue-options', require('./routes/issue-option-router'));
 
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
-  if (err instanceof expressValidation.ValidationError) {
-    logger.error(err.stack)(JSON.stringify(err));
+  if (isCelebrate(err)) {
+    logger.error(JSON.stringify(err));
     res.status(err.status).json(err);
   } else {
     res.status(500).end();

@@ -2,11 +2,11 @@
 
 const router = require('express').Router();
 const signUpService = require('../service/sign-up-service');
-const validate = require('express-validation');
+const validator = require('../utils/validator');
 const schema = require('../config/validation-schema');
 const { UniqueViolationError } = require('objection-db-errors');
 
-router.post('/', validate(schema.account), async (req, res, next) => {
+router.post('/', validator.validate(schema.account), async (req, res, next) => {
   try {
     await signUpService.signUp(req.body.account);
     res.status(200).end();

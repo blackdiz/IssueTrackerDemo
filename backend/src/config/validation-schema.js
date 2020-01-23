@@ -1,10 +1,11 @@
 'use strict';
 
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
+const {Segments} = require('celebrate');
 
 module.exports = {
   account: {
-    body: {
+    [Segments.BODY]: {
       account: Joi.object()
         .required()
         .keys({
@@ -12,16 +13,16 @@ module.exports = {
             .max(20)
             .alphanum()
             .required()
-            .error(() => ({ message: '請輸入使用者名稱' })),
+            .error(() => ( '請輸入使用者名稱')),
           password: Joi.string()
             .alphanum()
             .required()
-            .error(() => ({ message: '請輸入密碼' }))
+            .error(() => ('請輸入密碼'))
         })
     }
   },
   project: {
-    body: {
+    [Segments.BODY]: {
       project: Joi.object()
         .required()
         .keys({
@@ -38,7 +39,7 @@ module.exports = {
     }
   },
   issue: {
-    body: {
+    [Segments.BODY]: {
       issue: Joi.object()
         .required()
         .keys({
