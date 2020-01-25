@@ -39,5 +39,4 @@ http://localhost:8080
 
 TODO
 - [x] 持續更新版本和容器化
-- [] 建立CI & CD
 - [] 改用TypeScript
