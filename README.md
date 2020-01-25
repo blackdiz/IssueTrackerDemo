@@ -1,6 +1,7 @@
 # IssueTrackerDemo  
 
 專案問題管理程式，前後端分離，後端只提供API endpoint
+前後端和 DB 均使用 Docker, 並以 Docker Compose 啟動
 
 後端使用：  
 * NodeJS
@@ -11,7 +12,7 @@
 前端使用：
 * ReactJS
 * React Router v4
-* Reactstrap  
+* Reactstrap
 
 提供功能:  
 * 帳號註冊
