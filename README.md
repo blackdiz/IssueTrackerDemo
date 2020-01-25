@@ -1,6 +1,7 @@
 # IssueTrackerDemo  
 
 專案問題管理程式，前後端分離，後端只提供API endpoint
+
 前後端和 DB 均使用 Docker, 並以 Docker Compose 啟動
 
 後端使用：  
