@@ -39,4 +39,4 @@ http://localhost:8080
 
 TODO
 - [x] 持續更新版本和容器化
-- [] 改用TypeScript
+- [ ] 改用TypeScript
