@@ -21,9 +21,10 @@ Features:
 * Issue management
 
 How to start:
+
 Intall [docker-compose](https://docs.docker.com/compose/install/) first.
 
-execute
+go the project directory and execute
 ```
 docker-compose up
 ```
@@ -60,7 +61,7 @@ TODO
 如何啟動
 
 請先安裝 [docker-compose](https://docs.docker.com/compose/install/)
-再輸入
+在專案目錄下輸入
 ```
 docker-compose up
 ```
